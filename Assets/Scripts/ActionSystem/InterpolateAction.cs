@@ -1,0 +1,25 @@
+﻿using UnityEngine;
+using System.Collections;
+using Assets.Scripts.ActionSystem;
+
+public class InterpolateAction : Action
+{
+    private float time = 0;
+    private float endTime = 0;
+    private Vector3 moveTo;
+
+
+    public override bool Execute()
+    {
+        time += Time.deltaTime;
+        myObj.transform.localPosition = Vector3.Lerp(myObj.transform.localPosition, moveTo, time);
+
+        return time >= endTime;
+    }
+
+    public InterpolateAction(GameObject objectToActOn, Vector3 moveTo, float endTime) : base(objectToActOn)
+    {
+        this.moveTo = moveTo;
+        this.endTime = endTime;
+    }
+}
