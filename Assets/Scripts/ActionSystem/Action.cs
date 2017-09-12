@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.ActionSystem
 {
+    [Serializable]
     public abstract class Action
     {
         public GameObject myObj;
@@ -15,7 +16,7 @@ namespace Assets.Scripts.ActionSystem
         {
             myObj = objectToActOn;
         }
-
+        
         public abstract bool Execute();
     }
 }

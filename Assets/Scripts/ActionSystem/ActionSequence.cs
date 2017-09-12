@@ -2,6 +2,7 @@
 using System.Collections;
 using Assets.Scripts.ActionSystem;
 
+[System.Serializable]
 public class ActionSequence : Action
 {
     private ArrayList _actionList;

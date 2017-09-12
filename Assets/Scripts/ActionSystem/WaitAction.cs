@@ -2,6 +2,7 @@
 using System.Collections;
 using Assets.Scripts.ActionSystem;
 
+[System.Serializable]
 public class WaitAction : Action
 {
     private float time = 0;

@@ -2,6 +2,7 @@
 using System.Collections;
 using Assets.Scripts.ActionSystem;
 
+[System.Serializable]
 public class InterpolateAction : Action
 {
     private float time = 0;
