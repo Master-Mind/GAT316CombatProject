@@ -36,7 +36,7 @@ public class Weapon : MonoBehaviour
 	void Update () {
 		if(!_actions.IsActive && !_isResting)
         {
-            ArrayList group = new ArrayList();
+            ArrayThatWorks<Action> group = new ArrayThatWorks<Action>();
             group.Add(new SlerpRotAction(gameObject, RestingRot, 0.1f));
             group.Add(new InterpolateAction(gameObject, RestingPos, 0.1f));
             _actions.AddAction(new ActionSequence(gameObject, group));

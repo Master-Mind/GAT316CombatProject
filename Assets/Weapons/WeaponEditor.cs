@@ -46,9 +46,13 @@ public class WeaponEditor : Editor
             {
                 editMultiAction(((ActionGroup)_editedWeapon.QuickMoveset[i])._actionList);
             }
-            if (_editedWeapon.QuickMoveset[i].GetType() == typeof(ActionSequence))
+            else if (_editedWeapon.QuickMoveset[i].GetType() == typeof(ActionSequence))
             {
                 editMultiAction(((ActionSequence)_editedWeapon.QuickMoveset[i])._actionList);
+            }
+            else
+            {
+                editSingleAction(_editedWeapon.QuickMoveset[i]);
             }
             if (GUILayout.Button("Remove"))
             {
@@ -70,5 +74,23 @@ public class WeaponEditor : Editor
     void editMultiAction(ArrayThatWorks<Assets.Scripts.ActionSystem.Action> actionList)
     {
         //TODO: Put shit in this function
+
+    }
+
+    void editSingleAction(Assets.Scripts.ActionSystem.Action action)
+    {
+        //TODO: Put shit in this function
+        Type actType = action.GetType();
+
+        foreach(var member in actType.GetMembers())
+        {
+            //if the member is not a function
+            if(member.MemberType == System.Reflection.MemberTypes.Field)
+            {
+                GUILayout.Label(member.Name);
+                GUILayout.Label(((System.Reflection.FieldInfo)member).FieldType.Name);
+
+            }
+        }
     }
 }

@@ -5,9 +5,9 @@ using Assets.Scripts.ActionSystem;
 [System.Serializable]
 public class InterpolateAction : Action
 {
-    private float time = 0;
-    private float endTime = 0;
-    private Vector3 moveTo;
+    public float time = 0;
+    public float endTime = 0;
+    public Vector3 moveTo;
 
     public InterpolateAction()
     {
