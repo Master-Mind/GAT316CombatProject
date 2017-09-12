@@ -167,7 +167,7 @@ MonoBehaviour:
   m_RecenterToTargetHeading:
     m_enabled: 1
     m_RecenterWaitTime: 1
-    m_RecenteringTime: 4
+    m_RecenteringTime: 1
     m_HeadingDefinition: 2
     m_VelocityFilterStrength: 4
   m_HeadingIsSlave: 0
@@ -567,7 +567,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 4167230534a52bb4d9073a435cafff7a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -630,8 +630,10 @@ GameObject:
   - component: {fileID: 1513646432}
   - component: {fileID: 1513646431}
   - component: {fileID: 1513646430}
+  - component: {fileID: 1513646438}
   - component: {fileID: 1513646435}
   - component: {fileID: 1513646436}
+  - component: {fileID: 1513646437}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -747,6 +749,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LateralSpeed: 5
+--- !u!114 &1513646437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1513646429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e900d1e0f8fa0cd4abbc9179bd20268a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 1375474535342770, guid: 201ceab34ddceb9429e4afad9cfe4805, type: 2}
+--- !u!114 &1513646438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1513646429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2014f42070f01f948bd21da231eb51b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsActive: 0
 --- !u!1 &1602694041
 GameObject:
   m_ObjectHideFlags: 0
@@ -788,6 +814,7 @@ GameObject:
   - component: {fileID: 1945650108}
   - component: {fileID: 1945650107}
   - component: {fileID: 1945650106}
+  - component: {fileID: 1945650112}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -890,3 +917,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1945650112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1945650105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf7da6c10698e0f4f93219abddf71f37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

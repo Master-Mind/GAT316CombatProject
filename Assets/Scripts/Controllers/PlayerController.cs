@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private MovementController _move;
+    private CombatController _fight;
     private GameObject _leLookAtMaTron;
     public float LateralSpeed = 0;
 
@@ -18,7 +19,8 @@ public class PlayerController : MonoBehaviour
 	void Start ()
 	{
 	    _move = GetComponent<MovementController>();
-	    _leLookAtMaTron = GameObject.Find("LOOKATME");
+        _fight = GetComponent<CombatController>();
+        _leLookAtMaTron = GameObject.Find("LOOKATME");
 	    _cam = GameObject.Find("MainCamera");
 	    _camSettings = _cam.GetComponent<CinemachineVirtualCamera>();
 	}
@@ -31,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
         if (Mathf.Abs(Input.GetAxis("MoveVertical")) > 0.2f)
         {
-            movement -= transform.forward * LateralSpeed * Input.GetAxis("MoveVertical");
+            movement -= transform.forward * Input.GetAxis("MoveVertical");
         }
         if (Mathf.Abs(Input.GetAxis("MoveHorizontal")) > 0.1f)
         {
@@ -41,9 +43,9 @@ public class PlayerController : MonoBehaviour
             {
                 transform.LookAt(_lockedOnObject.transform);
             }
-            movement += transform.right * LateralSpeed * Input.GetAxis("MoveHorizontal");
+            movement += transform.right * Input.GetAxis("MoveHorizontal");
         }
-
+        
         //Lock on handling
         if (Input.GetKeyDown(KeyCode.Joystick1Button9))
         {
@@ -56,6 +58,10 @@ public class PlayerController : MonoBehaviour
             {
                 _lockedOnObject = null;
             }
+        }
+        if (Input.GetKeyDown(KeyCode.Joystick1Button5))
+        {
+            _fight.ShortAttack();
         }
 
         if (_lockedOnObject)
@@ -75,7 +81,16 @@ public class PlayerController : MonoBehaviour
         {
             movement += Vector3.up;
         }
-
-        _move.MoveDir(movement);
+        movement.Normalize();
+        movement *= LateralSpeed;
+        //Dodge
+        if (Input.GetKeyDown(KeyCode.Joystick1Button1))
+        {
+            _move.Dodge(movement);
+        }
+        else
+        {
+            _move.MoveDir(movement);
+        }
     }
 }
