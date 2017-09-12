@@ -5,12 +5,15 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Assets.Scripts.ActionSystem;
+using Assets.Scripts;
+
 [CustomEditor(typeof(Weapon))]
 public class WeaponEditor : Editor
 {
     List<Type> actTypes = new List<Type>();
     private Weapon _editedWeapon;
     int selected = 0;
+    private ArrayThatWorks<bool> _foldoutBools;
     // Use this for initialization
     void OnEnable()
     {
@@ -29,6 +32,12 @@ public class WeaponEditor : Editor
         {
             _editedWeapon.QuickMoveset = new ArrayThatWorks<Assets.Scripts.ActionSystem.Action>();
         }
+        _foldoutBools = new ArrayThatWorks<bool>(_editedWeapon.QuickMoveset.Count());
+
+        for (int i = 0; i < _editedWeapon.QuickMoveset.Count(); ++i)
+        {
+            _foldoutBools.Add(false);
+        }
     }
 
     // Update is called once per frame
@@ -41,24 +50,33 @@ public class WeaponEditor : Editor
         }
         for(int i = 0; i < _editedWeapon.QuickMoveset.Count(); ++i)
         {
-            GUILayout.Label(_editedWeapon.QuickMoveset[i].GetType().Name);
-            if(_editedWeapon.QuickMoveset[i].GetType() == typeof(ActionGroup))
+            if(EditorGUILayout.Foldout(_foldoutBools[i], _editedWeapon.QuickMoveset[i].GetType().Name))
             {
-                editMultiAction(((ActionGroup)_editedWeapon.QuickMoveset[i])._actionList);
-            }
-            else if (_editedWeapon.QuickMoveset[i].GetType() == typeof(ActionSequence))
-            {
-                editMultiAction(((ActionSequence)_editedWeapon.QuickMoveset[i])._actionList);
+                _foldoutBools[i] = true;
+                if (_editedWeapon.QuickMoveset[i].GetType() == typeof(ActionGroup))
+                {
+                    editMultiAction(((ActionGroup)_editedWeapon.QuickMoveset[i])._actionList);
+                }
+                else if (_editedWeapon.QuickMoveset[i].GetType() == typeof(ActionSequence))
+                {
+                    editMultiAction(((ActionSequence)_editedWeapon.QuickMoveset[i])._actionList);
+                }
+                else
+                {
+                    editSingleAction(_editedWeapon.QuickMoveset[i]);
+                }
+                if (GUILayout.Button("Remove"))
+                {
+                    _editedWeapon.QuickMoveset.RemoveAt(i);
+                    i--;
+                }
             }
             else
             {
-                editSingleAction(_editedWeapon.QuickMoveset[i]);
+                _foldoutBools[i] = false;
             }
-            if (GUILayout.Button("Remove"))
-            {
-                _editedWeapon.QuickMoveset.RemoveAt(i);
-                i--;
-            }
+            //GUILayout.Label(_editedWeapon.QuickMoveset[i].GetType().Name);
+            
         }
 
         selected = EditorGUILayout.Popup("Add Action", selected, labels.ToArray());
@@ -66,6 +84,7 @@ public class WeaponEditor : Editor
         {
 
             _editedWeapon.QuickMoveset.Add((Assets.Scripts.ActionSystem.Action)Activator.CreateInstance(actTypes[selected]));
+            _foldoutBools.Add(false);
             _editedWeapon.QuickMoveset[0].myObj = _editedWeapon.gameObject;
         }
 
@@ -81,14 +100,41 @@ public class WeaponEditor : Editor
     {
         //TODO: Put shit in this function
         Type actType = action.GetType();
-
-        foreach(var member in actType.GetMembers())
+        foreach (var member in actType.GetMembers())
         {
             //if the member is not a function
             if(member.MemberType == System.Reflection.MemberTypes.Field)
             {
-                GUILayout.Label(member.Name);
-                GUILayout.Label(((System.Reflection.FieldInfo)member).FieldType.Name);
+                System.Reflection.FieldInfo field = ((System.Reflection.FieldInfo)member);
+                if (field.FieldType == typeof(Single))
+                {
+                    field.SetValue(action,EditorGUILayout.FloatField(member.Name, (float)(field.GetValue(action))));
+                }
+                else if (field.FieldType == typeof(Vector2))
+                {
+                    field.SetValue(action, EditorGUILayout.Vector2Field(member.Name, (Vector2)(field.GetValue(action))));
+                }
+                else if (field.FieldType == typeof(Vector3))
+                {
+                    field.SetValue(action, EditorGUILayout.Vector3Field(member.Name, (Vector3)(field.GetValue(action))));
+                }
+                else if (field.FieldType == typeof(string))
+                {
+                    field.SetValue(action, EditorGUILayout.TextField(member.Name, (string)(field.GetValue(action))));
+                }
+                else if (field.FieldType == typeof(Quaternion))
+                {
+                    string RotationScript = "";
+
+                    RotationScript = EditorGUILayout.TextField(member.Name, RotationScript);
+
+                    RotationParser rotPar = new RotationParser(RotationScript);
+
+                }
+                else
+                {
+                    GUILayout.Label(member.Name + " is of type " + field.FieldType.Name + " which has not been reflected yet");
+                }
 
             }
         }

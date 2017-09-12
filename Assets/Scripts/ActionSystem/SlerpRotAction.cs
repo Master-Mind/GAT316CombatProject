@@ -6,8 +6,8 @@ using Assets.Scripts.ActionSystem;
 public class SlerpRotAction : Action
 {
     private float time = 0;
-    private float endTime = 0;
-    private Quaternion rotTo;
+    public float endTime = 0;
+    public Quaternion rotTo;
 
     public SlerpRotAction()
     {
