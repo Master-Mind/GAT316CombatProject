@@ -9,7 +9,10 @@ public class InterpolateAction : Action
     private float endTime = 0;
     private Vector3 moveTo;
 
+    public InterpolateAction()
+    {
 
+    }
     public override bool Execute()
     {
         time += Time.deltaTime;

@@ -5,19 +5,22 @@ using Assets.Scripts.ActionSystem;
 [System.Serializable]
 public class ActionSequence : Action
 {
-    private ArrayList _actionList;
+    public ArrayThatWorks<Action> _actionList;
+    public ActionSequence()
+    {
 
+    }
     public override bool Execute()
     {
-        if (((Action) _actionList[_actionList.Count - 1]).Execute())
+        if (((Action) _actionList[_actionList.Count() - 1]).Execute())
         {
-            _actionList.RemoveAt(_actionList.Count - 1);
+            _actionList.RemoveAt(_actionList.Count() - 1);
         }
 
-        return _actionList.Count == 0;
+        return _actionList.Count() == 0;
     }
 
-    public ActionSequence(GameObject objectToActOn, ArrayList actionList) : base(objectToActOn)
+    public ActionSequence(GameObject objectToActOn, ArrayThatWorks<Action> actionList) : base(objectToActOn)
     {
         _actionList = actionList;
         _actionList.Reverse();

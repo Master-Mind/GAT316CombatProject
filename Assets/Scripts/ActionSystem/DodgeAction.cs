@@ -11,7 +11,10 @@ public class DodgeAction : Action
 
     private Vector3 _dir;
     private CharacterController _charControl = null;
+    public DodgeAction()
+    {
 
+    }
     public override bool Execute()
     {
         time += Time.deltaTime;

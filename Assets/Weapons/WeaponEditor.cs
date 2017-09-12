@@ -9,7 +9,8 @@ using Assets.Scripts.ActionSystem;
 public class WeaponEditor : Editor
 {
     List<Type> actTypes = new List<Type>();
-    private SerializedProperty _quickMoveset;
+    private Weapon _editedWeapon;
+    int selected = 0;
     // Use this for initialization
     void OnEnable()
     {
@@ -23,26 +24,51 @@ public class WeaponEditor : Editor
                 actTypes.Add(type);
             }
         }
-        _quickMoveset = serializedObject.FindProperty("QuickMoveset");
+        _editedWeapon = (Weapon)target;
+        if(_editedWeapon.QuickMoveset == null)
+        {
+            _editedWeapon.QuickMoveset = new ArrayThatWorks<Assets.Scripts.ActionSystem.Action>();
+        }
     }
 
     // Update is called once per frame
     public override void OnInspectorGUI()
     {
-        int selected = 0;
         List<string> labels = new List<string>();
         foreach(var type in actTypes)
         {
             labels.Add(type.Name);
         }
-
-        for(int i = 0; i < _quickMoveset.arraySize; ++i)
+        for(int i = 0; i < _editedWeapon.QuickMoveset.Count(); ++i)
         {
-            _quickMoveset.GetArrayElementAtIndex(i);
+            GUILayout.Label(_editedWeapon.QuickMoveset[i].GetType().Name);
+            if(_editedWeapon.QuickMoveset[i].GetType() == typeof(ActionGroup))
+            {
+                editMultiAction(((ActionGroup)_editedWeapon.QuickMoveset[i])._actionList);
+            }
+            if (_editedWeapon.QuickMoveset[i].GetType() == typeof(ActionSequence))
+            {
+                editMultiAction(((ActionSequence)_editedWeapon.QuickMoveset[i])._actionList);
+            }
+            if (GUILayout.Button("Remove"))
+            {
+                _editedWeapon.QuickMoveset.RemoveAt(i);
+                i--;
+            }
         }
 
         selected = EditorGUILayout.Popup("Add Action", selected, labels.ToArray());
+        if(GUILayout.Button("Add"))
+        {
 
+            _editedWeapon.QuickMoveset.Add((Assets.Scripts.ActionSystem.Action)Activator.CreateInstance(actTypes[selected]));
+            _editedWeapon.QuickMoveset[0].myObj = _editedWeapon.gameObject;
+        }
 
+    }
+
+    void editMultiAction(ArrayThatWorks<Assets.Scripts.ActionSystem.Action> actionList)
+    {
+        //TODO: Put shit in this function
     }
 }

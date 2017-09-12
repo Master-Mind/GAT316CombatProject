@@ -11,7 +11,9 @@ namespace Assets.Scripts.ActionSystem
     public abstract class Action
     {
         public GameObject myObj;
-
+        protected Action()
+        {
+        }
         protected Action(GameObject objectToActOn)
         {
             myObj = objectToActOn;

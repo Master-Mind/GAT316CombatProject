@@ -10,7 +10,10 @@ public class SlerpAboutAction : Action
     private float endTime = 0;
     private GameObject rotAbout;
 
+    public SlerpAboutAction()
+    {
 
+    }
     public override bool Execute()
     {
         time += Time.deltaTime;

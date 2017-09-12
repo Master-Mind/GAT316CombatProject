@@ -9,7 +9,10 @@ public class SlerpRotAction : Action
     private float endTime = 0;
     private Quaternion rotTo;
 
+    public SlerpRotAction()
+    {
 
+    }
     public override bool Execute()
     {
         time += Time.deltaTime;
