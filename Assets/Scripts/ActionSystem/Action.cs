@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Assets.Scripts.ActionSystem
 {
     [Serializable]
-    public abstract class Action
+    public class Action : ScriptableObject
     {
         public GameObject myObj;
         protected Action()
@@ -19,6 +19,9 @@ namespace Assets.Scripts.ActionSystem
             myObj = objectToActOn;
         }
         
-        public abstract bool Execute();
+        public virtual bool Execute()
+        {
+            return false;
+        }
     }
 }

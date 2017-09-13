@@ -15,12 +15,10 @@ namespace Assets.Scripts
         {
             //tokenize the string
             char[] dilimiters = { ' '};
-            tokens = new ArrayThatWorks<string>(strToParse.Split(dilimiters));
+            //tokens = new ArrayThatWorks<string>(strToParse.Split(dilimiters));
 
             //parse the tokens
-            foreach(var token in tokens)
-            {
-            }
+            finalRotation = directions[tokens[0]];
         }
 
         static RotationParser()

@@ -9,7 +9,8 @@ public class Weapon : MonoBehaviour
     public Vector3 RestingPos;
     public Quaternion RestingRot;
     private ActionSystem _actions;
-    public ArrayThatWorks<Action> QuickMoveset;
+    [SerializeField]
+    public List<Action> QuickMoveset = new List<Action>();
     private int _quickIndex = 0;
     private bool _isResting = false;
 	// Use this for initialization

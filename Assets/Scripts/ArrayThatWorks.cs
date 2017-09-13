@@ -3,25 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
-public class ArrayThatWorks<T>
+[System.Serializable]
+public class ArrayThatWorks<T> : ScriptableObject
 {
+    [SerializeField]
     private System.Collections.ArrayList _arrayInternal;
 
-    public ArrayThatWorks()
-    {
-        _arrayInternal = new System.Collections.ArrayList();
-    }
-
-    public ArrayThatWorks(int size)
-    {
-        _arrayInternal = new System.Collections.ArrayList(size);
-    }
-
-    public ArrayThatWorks(System.Collections.ICollection c)
-    {
-        _arrayInternal = new System.Collections.ArrayList(c);
-    }
+    //public ArrayThatWorks()
+    //{
+    //    _arrayInternal = new System.Collections.ArrayList();
+    //}
+    //
+    //public ArrayThatWorks(int size)
+    //{
+    //    _arrayInternal = new System.Collections.ArrayList(size);
+    //}
+    //
+    //public ArrayThatWorks(System.Collections.ICollection c)
+    //{
+    //    _arrayInternal = new System.Collections.ArrayList(c);
+    //}
 
     public int Add(T item)
     {

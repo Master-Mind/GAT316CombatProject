@@ -12,8 +12,9 @@ public class WeaponEditor : Editor
 {
     List<Type> actTypes = new List<Type>();
     private Weapon _editedWeapon;
+    private SerializedProperty _editedMoveset;
     int selected = 0;
-    private ArrayThatWorks<bool> _foldoutBools;
+    private List<bool> _foldoutBools;
     // Use this for initialization
     void OnEnable()
     {
@@ -27,14 +28,12 @@ public class WeaponEditor : Editor
                 actTypes.Add(type);
             }
         }
-        _editedWeapon = (Weapon)target;
-        if(_editedWeapon.QuickMoveset == null)
-        {
-            _editedWeapon.QuickMoveset = new ArrayThatWorks<Assets.Scripts.ActionSystem.Action>();
-        }
-        _foldoutBools = new ArrayThatWorks<bool>(_editedWeapon.QuickMoveset.Count());
+        _editedWeapon = (Weapon) target;
+        _editedMoveset = serializedObject.FindProperty("QuickMoveset");
+        
+        _foldoutBools = new List<bool>();
 
-        for (int i = 0; i < _editedWeapon.QuickMoveset.Count(); ++i)
+        for (int i = 0; i < _editedMoveset.arraySize; ++i)
         {
             _foldoutBools.Add(false);
         }
@@ -43,12 +42,13 @@ public class WeaponEditor : Editor
     // Update is called once per frame
     public override void OnInspectorGUI()
     {
+        serializedObject.Update();
         List<string> labels = new List<string>();
         foreach(var type in actTypes)
         {
             labels.Add(type.Name);
         }
-        for(int i = 0; i < _editedWeapon.QuickMoveset.Count(); ++i)
+        for(int i = 0; i < _editedMoveset.arraySize; ++i)
         {
             if(EditorGUILayout.Foldout(_foldoutBools[i], _editedWeapon.QuickMoveset[i].GetType().Name))
             {
@@ -75,19 +75,19 @@ public class WeaponEditor : Editor
             {
                 _foldoutBools[i] = false;
             }
-            //GUILayout.Label(_editedWeapon.QuickMoveset[i].GetType().Name);
+            //GUILayout.Label(_editedMoveset.GetArrayElementAtIndex(i).GetType().Name);
             
         }
 
         selected = EditorGUILayout.Popup("Add Action", selected, labels.ToArray());
         if(GUILayout.Button("Add"))
         {
-
-            _editedWeapon.QuickMoveset.Add((Assets.Scripts.ActionSystem.Action)Activator.CreateInstance(actTypes[selected]));
+            
+            _editedWeapon.QuickMoveset.Add((Assets.Scripts.ActionSystem.Action)CreateInstance(actTypes[selected]));
             _foldoutBools.Add(false);
             _editedWeapon.QuickMoveset[0].myObj = _editedWeapon.gameObject;
         }
-
+        serializedObject.ApplyModifiedProperties();
     }
 
     void editMultiAction(ArrayThatWorks<Assets.Scripts.ActionSystem.Action> actionList)
@@ -130,6 +130,7 @@ public class WeaponEditor : Editor
 
                     RotationParser rotPar = new RotationParser(RotationScript);
 
+                    field.SetValue(action,rotPar.finalRotation);
                 }
                 else
                 {
