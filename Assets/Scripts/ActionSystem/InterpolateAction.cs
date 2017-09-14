@@ -9,10 +9,10 @@ public class InterpolateAction : Action
     public float endTime = 0;
     public Vector3 moveTo;
 
-    public InterpolateAction()
-    {
-
-    }
+    //public InterpolateAction()
+    //{
+    //
+    //}
     public override bool Execute()
     {
         time += Time.deltaTime;
@@ -21,9 +21,9 @@ public class InterpolateAction : Action
         return time >= endTime;
     }
 
-    public InterpolateAction(GameObject objectToActOn, Vector3 moveTo, float endTime) : base(objectToActOn)
-    {
-        this.moveTo = moveTo;
-        this.endTime = endTime;
-    }
+    //public InterpolateAction(GameObject objectToActOn, Vector3 moveTo, float endTime) : base(objectToActOn)
+    //{
+    //    this.moveTo = moveTo;
+    //    this.endTime = endTime;
+    //}
 }

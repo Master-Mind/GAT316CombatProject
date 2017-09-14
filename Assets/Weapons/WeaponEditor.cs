@@ -29,17 +29,22 @@ public class WeaponEditor : Editor
             }
         }
         _editedWeapon = (Weapon) target;
+        _editedWeapon.FromJSON();
         _editedMoveset = serializedObject.FindProperty("QuickMoveset");
-        _editedWeapon.QuickMoveset = new List<Assets.Scripts.ActionSystem.Action>();
+        //_editedWeapon.QuickMoveset = new ArrayThatWorksForActions();
         _foldoutBools = new List<bool>();
-        for (int i = 0; i < _editedWeapon.QuickMoveset.Count; ++i)
+        for (int i = 0; i < _editedWeapon.QuickMoveset.Count(); ++i)
         {
             _foldoutBools.Add(false);
         }
     }
+    class unityisforfuckbois
+    {
+        public int foo = 0;
+    }
     private void OnDisable()
     {
-        string jsonStream = JsonUtility.ToJson(_editedWeapon.QuickMoveset);
+        _editedWeapon.ToJSON();
     }
     // Update is called once per frame
     public override void OnInspectorGUI()
@@ -50,7 +55,7 @@ public class WeaponEditor : Editor
         {
             labels.Add(type.Name);
         }
-        for(int i = 0; i < _editedWeapon.QuickMoveset.Count; ++i)
+        for(int i = 0; i < _editedWeapon.QuickMoveset.Count(); ++i)
         {
             if(EditorGUILayout.Foldout(_foldoutBools[i], _editedWeapon.QuickMoveset[i].GetType().Name))
             {
