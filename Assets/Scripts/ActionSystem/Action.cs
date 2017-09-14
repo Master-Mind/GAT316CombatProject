@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Assets.Scripts.ActionSystem
 {
     [Serializable]
-    public class Action : ScriptableObject
+    public class Action
     {
         public GameObject myObj;
         protected Action()

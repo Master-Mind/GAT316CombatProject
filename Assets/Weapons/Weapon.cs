@@ -44,57 +44,20 @@ public class Weapon : MonoBehaviour
 
         serializer.TrySerialize(QuickMoveset.GetType(), QuickMoveset, out data);
 
-        //string ret = "";
-        //char curDepth = (char)1;
-        //foreach(Assets.Scripts.ActionSystem.Action move in QuickMoveset)
-        //{
-        //    ret += move.GetType().Name + serializer + curDepth;
-        //}
-
         _serializedQuickMoves = fsJsonPrinter.PrettyJson(data);
     }
 
     public void FromJSON()
     {
+        QuickMoveset = new ArrayThatWorksForActions();
+        if(_serializedQuickMoves == null)
+        {
+            return;
+        }
         fsData data = fsJsonParser.Parse(_serializedQuickMoves);
 
         fsSerializer serializer = new fsSerializer();
         serializer.TryDeserialize<ArrayThatWorksForActions>(data, ref QuickMoveset);
-        //char curDepth = (char)1;
-        //string[] actionStrs = _serializedQuickMoves.Split(curDepth);
-        //Dictionary<string, Type> typeDic = new Dictionary<string, Type>();
-        //foreach(var type in typeof(Assets.Scripts.ActionSystem.Action).Assembly.GetTypes())
-        //{
-        //    if(type.IsSubclassOf(typeof(Assets.Scripts.ActionSystem.Action)))
-        //    {
-        //        typeDic.Add(type.Name, type);
-        //    }
-        //}
-        //if(QuickMoveset == null)
-        //{
-        //    QuickMoveset = new ArrayThatWorksForActions();
-        //}
-        //else
-        //{
-        //    QuickMoveset.Clear();
-        //}
-        //
-        //foreach(var str in actionStrs)
-        //{
-        //    if(str == "")
-        //    {
-        //        continue;
-        //    }
-        //    else
-        //    {
-        //        int splitter = str.IndexOf('{');
-        //        string typename = str.Substring(0, splitter);
-        //        string data = str.Substring(splitter);
-        //        var fu = ScriptableObject.CreateInstance(typeDic[typename]);
-        //        JsonUtility.FromJsonOverwrite(str, fu);
-        //        QuickMoveset.Add((Assets.Scripts.ActionSystem.Action)fu);
-        //    }
-        //}
     }
 	// Update is called once per frame
 	void Update () {
