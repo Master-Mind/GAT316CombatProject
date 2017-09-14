@@ -81,8 +81,20 @@ public class ArrayThatWorks<T> : ScriptableObject
         return _arrayInternal.Count;
     }
 
+    public void CheckArray()
+    {
+        if(_arrayInternal == null)
+        {
+            _arrayInternal = new ArrayList();
+        }
+    }
     public IEnumerator GetEnumerator()
     {
         return _arrayInternal.GetEnumerator();
     }
+}
+
+[Serializable]
+public class ArrayThatWorksForActions : ArrayThatWorks<Assets.Scripts.ActionSystem.Action>
+{
 }

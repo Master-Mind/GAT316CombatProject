@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
     public Quaternion RestingRot;
     private ActionSystem _actions;
     [SerializeField]
-    public List<Action> QuickMoveset = new List<Action>();
+    public List<Action> QuickMoveset;
     private int _quickIndex = 0;
     private bool _isResting = false;
 	// Use this for initialization
