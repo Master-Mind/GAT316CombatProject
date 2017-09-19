@@ -1,0 +1,1 @@
+{"_arrayInternal":[{"_actionList":{"_arrayInternal":[{"angle":180.0,"endTime":1.0,"rotAbout":{"x":0.0,"y":0.0,"z":0.0},"myObj":{"$id":"6"},"$type":"SlerpAboutAction"}]},"myObj":{"$ref":"6"},"$type":"ActionGroup"}]}

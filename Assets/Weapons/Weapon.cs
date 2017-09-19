@@ -22,6 +22,7 @@ public class Weapon : MonoBehaviour
     public string _serializedQuickMoves;
     [SerializeField]
     public string _serializedLongMoves;
+    public bool IsWaiting = false;
     // Use this for initialization
     void Start ()
     {
@@ -129,21 +130,28 @@ public class Weapon : MonoBehaviour
 	void Update () {
 		if(!_actions.IsActive && !_isResting)
         {
-            //ArrayThatWorks<Action> group = new ArrayThatWorks<Action>();
-            //group.Add(new SlerpRotAction(gameObject, RestingRot, 0.1f));
-            //group.Add(new InterpolateAction(gameObject, RestingPos, 0.1f));
-            //_actions.AddAction(new ActionSequence(gameObject, group));
-            //_isResting = true;
+            ArrayThatWorksForActions group = new ArrayThatWorksForActions();
+            group.Add(new SlerpRotAction(gameObject, RestingRot, 0.1f));
+            group.Add(new InterpolateAction(gameObject, RestingPos, 0.1f));
+            _actions.AddAction(new ActionSequence(gameObject, group));
+            _isResting = true;
+            _quickIndex = 0;
+
         }
 	}
 
     public void QuickAttack()
     {
-        if (!_actions.IsActive)
+        if (!_actions.IsActive || IsWaiting)
         {
             _isResting = false;
 
             _actions.CopyAction(QuickMoveset[_quickIndex]);
+            _quickIndex++;
+            if(_quickIndex >= QuickMoveset.Count())
+            {
+                _quickIndex = 0;
+            }
         }
     }
 

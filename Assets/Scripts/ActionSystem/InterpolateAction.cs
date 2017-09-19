@@ -16,7 +16,7 @@ public class InterpolateAction : Action
     public override bool Execute()
     {
         time += Time.deltaTime;
-        myObj.transform.localPosition = Vector3.Lerp(myObj.transform.localPosition, moveTo, time);
+        myObj.transform.localPosition = Vector3.Lerp(myObj.transform.localPosition, moveTo, time / endTime);
 
         return time >= endTime;
     }

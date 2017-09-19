@@ -6,17 +6,26 @@ using Assets.Scripts.ActionSystem;
 public class WaitAction : Action
 {
     private float time = 0;
-    private float endTime = 0;
+    public float endTime = 0;
+    private Weapon wep;
 
+    public override void Initialize()
+    {
+        wep = myObj.GetComponent<Weapon>();
+    }
 
     public override bool Execute()
     {
         time += Time.deltaTime;
-        return time >= endTime;
+        return !(wep.IsWaiting = time <= endTime);
     }
 
     public WaitAction(GameObject objectToActOn, float endTime) : base(objectToActOn)
     {
         this.endTime = endTime;
+    }
+
+    public WaitAction() 
+    {
     }
 }
