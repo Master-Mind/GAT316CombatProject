@@ -15,12 +15,15 @@ public class Weapon : MonoBehaviour
     private ActionSystem _actions;
     [SerializeField]
     public ArrayThatWorksForActions QuickMoveset;
+    public ArrayThatWorksForActions LongMoveset;
     private int _quickIndex = 0;
     private bool _isResting = false;
     [SerializeField]
     public string _serializedQuickMoves;
-	// Use this for initialization
-	void Start ()
+    [SerializeField]
+    public string _serializedLongMoves;
+    // Use this for initialization
+    void Start ()
     {
         transform.localPosition = RestingPos;
         RestingRot = transform.localRotation;
@@ -41,15 +44,21 @@ public class Weapon : MonoBehaviour
     }
 	public void ToJSON()
     {
+        toForArray(QuickMoveset, "Quick", ref _serializedQuickMoves);
+        toForArray(LongMoveset, "Long", ref _serializedLongMoves);
+
+    }
+
+    private void toForArray(ArrayThatWorksForActions moves, string moveType, ref string MovesetStr)
+    {
         fsData data;
         fsSerializer serializer = new fsSerializer();
-
-        if(QuickMoveset != null)
+        if (moves != null)
         {
-            serializer.TrySerialize(QuickMoveset.GetType(), QuickMoveset, out data);
+            serializer.TrySerialize(moves.GetType(), moves, out data);
 
-            _serializedQuickMoves = fsJsonPrinter.CompressedJson(data);
-            var foo = (gameObject.name + ".txt");
+            MovesetStr = fsJsonPrinter.CompressedJson(data);
+            var foo = (gameObject.name + moveType + ".txt");
             var file = new FileStream(foo, FileMode.OpenOrCreate);
             byte[] fuck = System.Text.ASCIIEncoding.ASCII.GetBytes(_serializedQuickMoves);
             file.Write(fuck, 0, _serializedQuickMoves.Length);
@@ -58,27 +67,45 @@ public class Weapon : MonoBehaviour
 
     public void FromJSON()
     {
-        QuickMoveset = new ArrayThatWorksForActions();
-        if(_serializedQuickMoves == null)
+        QuickMoveset = fromForArray(ref _serializedQuickMoves, "Quick");
+        LongMoveset = fromForArray(ref _serializedLongMoves, "Long");
+
+
+        resetActObjs(QuickMoveset);
+    }
+
+    private ArrayThatWorksForActions fromForArray(ref string serializedMoves, string setName)
+    {
+        ArrayThatWorksForActions ret = new ArrayThatWorksForActions();
+        if(setName == "Long")
         {
-            var foo = File.Open(gameObject.name + ".txt", FileMode.Open);
-            if(!foo.CanRead)
+            return ret;
+        }
+        if (serializedMoves == null)
+        {
+            var fuckcSharp = new FileInfo(gameObject.name + setName + ".txt");
+
+            if (!fuckcSharp.Exists)
             {
-                return;
+                return ret;
             }
-            var fuckcSharp = new FileInfo(gameObject.name + ".txt");
+            var foo = File.Open(gameObject.name + ".txt", FileMode.Open);
             byte[] boots = new byte[fuckcSharp.Length];
 
             foo.Read(boots, 0, (int)fuckcSharp.Length);
 
-            _serializedQuickMoves = System.Text.ASCIIEncoding.ASCII.GetString(boots);
+            serializedMoves = System.Text.ASCIIEncoding.ASCII.GetString(boots);
         }
-        fsData data = fsJsonParser.Parse(_serializedQuickMoves);
+        if(serializedMoves != "")
+        {
 
-        fsSerializer serializer = new fsSerializer();
-        serializer.TryDeserialize<ArrayThatWorksForActions>(data, ref QuickMoveset);
+            fsData data = fsJsonParser.Parse(serializedMoves);
 
-        resetActObjs(QuickMoveset);
+            fsSerializer serializer = new fsSerializer();
+            serializer.TryDeserialize<ArrayThatWorksForActions>(data, ref ret);
+        }
+
+        return ret;
     }
 
     private void resetActObjs(ArrayThatWorksForActions actArray)
@@ -119,7 +146,7 @@ public class Weapon : MonoBehaviour
         {
             _isResting = false;
 
-            _actions.AddAction(QuickMoveset[_quickIndex]);
+            _actions.CopyAction(QuickMoveset[_quickIndex]);
         }
     }
 

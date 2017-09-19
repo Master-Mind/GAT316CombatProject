@@ -30,4 +30,9 @@ public class ActionSystem : MonoBehaviour
     {
         _actions.Add(action);
     }
+
+    internal void CopyAction(Assets.Scripts.ActionSystem.Action action)
+    {
+        _actions.Add(action.Copy());
+    }
 }

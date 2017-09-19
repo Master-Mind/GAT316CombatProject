@@ -65,6 +65,7 @@ public class WeaponEditor : Editor
         }
         //edit the moveset recursively
         editMultiAction(_editedWeapon.QuickMoveset, "Quick moveset",20);
+        editMultiAction(_editedWeapon.LongMoveset, "Long Moveset", 20);
 
         selected = EditorGUILayout.Popup("Add Action", selected, labels.ToArray());
         serializedObject.ApplyModifiedProperties();

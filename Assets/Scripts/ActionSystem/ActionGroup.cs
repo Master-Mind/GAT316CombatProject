@@ -6,6 +6,7 @@ using Assets.Scripts.ActionSystem;
 public class ActionGroup : Action
 {
     public ArrayThatWorksForActions _actionList;
+
     public ActionGroup()
     {
         _actionList = new ArrayThatWorksForActions();
@@ -29,5 +30,10 @@ public class ActionGroup : Action
     {
         _actionList = actionList;
         _actionList.Reverse();
+    }
+
+    public ActionGroup(ActionGroup actseq)
+    {
+        _actionList = actseq._actionList;
     }
 }

@@ -1,1 +1,1 @@
-{"_arrayInternal":[{"endTime":0.0,"moveTo":{"x":0.0,"y":0.0,"z":0.0},"myObj":{},"$type":"InterpolateAction"}]}
+{"_arrayInternal":[{"_actionList":{"_arrayInternal":[{"endTime":0.5,"rotTo":{"x":0.0,"y":0.0,"z":0.7071068,"w":0.7071068},"parseDisBoiiiiii":"RollRight","myObj":{"$id":"6"},"$type":"SlerpRotAction"}]},"myObj":{"$ref":"6"},"$type":"ActionSequence"}]}y":0.0,"z":0.0},"myObj":{"$ref":"6"},"$type":"SlerpAboutAction"}]},"myObj":{"$ref":"6"},"$type":"ActionSequence"}]}}
