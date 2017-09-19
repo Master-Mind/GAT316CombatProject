@@ -9,6 +9,7 @@ public class SlerpAboutAction : Action
     public float angle = 0;
     public float endTime = 0;
     public Vector3 rotAbout;
+    private GameObject bazinga;
 
     public SlerpAboutAction()
     {
@@ -18,11 +19,12 @@ public class SlerpAboutAction : Action
     public override void Initialize()
     {
         //rotAbout = myObj;
+        bazinga = myObj.transform.parent.parent.gameObject;
     }
     public override bool Execute()
     {
         time += Time.deltaTime;
-        myObj.transform.RotateAround(myObj.transform.position + rotAbout, Vector3.up, angle * Time.deltaTime * (1 / endTime));
+        myObj.transform.RotateAround(bazinga.transform.position + rotAbout, Vector3.up, angle * Time.deltaTime * (1 / endTime));
         return time >= endTime;
     }
 

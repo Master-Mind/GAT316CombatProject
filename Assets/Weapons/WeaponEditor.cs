@@ -51,6 +51,8 @@ public class WeaponEditor : Editor
     {
         //update the properties of the object
         serializedObject.Update();
+        var field = typeof(Weapon).GetField("RestingPos");
+        field.SetValue((Weapon)target, EditorGUILayout.Vector3Field(field.Name, (Vector3)field.GetValue((Weapon)target)));
         if (GUILayout.Button("CLEAR ALL NO TOUCHY", GUILayout.Width(500f)))
         {
             _editedWeapon.QuickMoveset.Clear();

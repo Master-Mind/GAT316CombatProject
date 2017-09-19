@@ -4,6 +4,7 @@ using FullSerializer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ public class Weapon : MonoBehaviour
     private int _quickIndex = 0;
     private bool _isResting = false;
     [SerializeField]
-    private string _serializedQuickMoves;
+    public string _serializedQuickMoves;
 	// Use this for initialization
 	void Start ()
     {
@@ -48,6 +49,10 @@ public class Weapon : MonoBehaviour
             serializer.TrySerialize(QuickMoveset.GetType(), QuickMoveset, out data);
 
             _serializedQuickMoves = fsJsonPrinter.CompressedJson(data);
+            var foo = (gameObject.name + ".txt");
+            var file = new FileStream(foo, FileMode.OpenOrCreate);
+            byte[] fuck = System.Text.ASCIIEncoding.ASCII.GetBytes(_serializedQuickMoves);
+            file.Write(fuck, 0, _serializedQuickMoves.Length);
         }
     }
 
@@ -56,7 +61,17 @@ public class Weapon : MonoBehaviour
         QuickMoveset = new ArrayThatWorksForActions();
         if(_serializedQuickMoves == null)
         {
-            return;
+            var foo = File.Open(gameObject.name + ".txt", FileMode.Open);
+            if(!foo.CanRead)
+            {
+                return;
+            }
+            var fuckcSharp = new FileInfo(gameObject.name + ".txt");
+            byte[] boots = new byte[fuckcSharp.Length];
+
+            foo.Read(boots, 0, (int)fuckcSharp.Length);
+
+            _serializedQuickMoves = System.Text.ASCIIEncoding.ASCII.GetString(boots);
         }
         fsData data = fsJsonParser.Parse(_serializedQuickMoves);
 
