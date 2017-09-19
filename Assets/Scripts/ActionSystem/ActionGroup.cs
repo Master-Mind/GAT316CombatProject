@@ -5,10 +5,11 @@ using Assets.Scripts.ActionSystem;
 [System.Serializable]
 public class ActionGroup : Action
 {
-    public ArrayThatWorks<Action> _actionList;
+    public ArrayThatWorksForActions _actionList;
+
     public ActionGroup()
     {
-
+        _actionList = new ArrayThatWorksForActions();
     }
     public override bool Execute()
     {
@@ -25,9 +26,14 @@ public class ActionGroup : Action
         return _actionList.Count() == 0;
     }
 
-    public ActionGroup(GameObject objectToActOn, ArrayThatWorks<Action> actionList) : base(objectToActOn)
+    public ActionGroup(GameObject objectToActOn, ArrayThatWorksForActions actionList) : base(objectToActOn)
     {
         _actionList = actionList;
         _actionList.Reverse();
+    }
+
+    public ActionGroup(ActionGroup actseq)
+    {
+        _actionList = actseq._actionList;
     }
 }

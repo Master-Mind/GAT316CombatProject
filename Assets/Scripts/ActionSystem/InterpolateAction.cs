@@ -5,13 +5,13 @@ using Assets.Scripts.ActionSystem;
 [System.Serializable]
 public class InterpolateAction : Action
 {
-    public float time = 0;
+    private float time = 0;
     public float endTime = 0;
     public Vector3 moveTo;
 
     public InterpolateAction()
     {
-
+    
     }
     public override bool Execute()
     {
