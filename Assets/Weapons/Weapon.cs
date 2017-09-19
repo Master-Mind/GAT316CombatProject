@@ -60,7 +60,7 @@ public class Weapon : MonoBehaviour
             MovesetStr = fsJsonPrinter.CompressedJson(data);
             var foo = (gameObject.name + moveType + ".txt");
             var file = new FileStream(foo, FileMode.OpenOrCreate);
-            byte[] fuck = System.Text.ASCIIEncoding.ASCII.GetBytes(_serializedQuickMoves);
+            byte[] fuck = System.Text.ASCIIEncoding.ASCII.GetBytes(MovesetStr);
             file.Write(fuck, 0, _serializedQuickMoves.Length);
         }
     }
@@ -77,10 +77,7 @@ public class Weapon : MonoBehaviour
     private ArrayThatWorksForActions fromForArray(ref string serializedMoves, string setName)
     {
         ArrayThatWorksForActions ret = new ArrayThatWorksForActions();
-        if(setName == "Long")
-        {
-            return ret;
-        }
+		
         if (serializedMoves == null)
         {
             var fuckcSharp = new FileInfo(gameObject.name + setName + ".txt");
@@ -89,7 +86,7 @@ public class Weapon : MonoBehaviour
             {
                 return ret;
             }
-            var foo = File.Open(gameObject.name + ".txt", FileMode.Open);
+            var foo = File.Open(gameObject.name + setName + ".txt", FileMode.Open);
             byte[] boots = new byte[fuckcSharp.Length];
 
             foo.Read(boots, 0, (int)fuckcSharp.Length);
