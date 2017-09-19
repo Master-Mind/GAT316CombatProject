@@ -131,7 +131,7 @@ public class WeaponEditor : Editor
 
             }
 
-            addOption(_editedWeapon.QuickMoveset);
+            addOption(actionList);
             unindent();
         }
     }
@@ -162,15 +162,22 @@ public class WeaponEditor : Editor
                 {
                     field.SetValue(action, EditorGUILayout.TextField(member.Name, (string)(field.GetValue(action))));
                 }
+                else if (field.FieldType == typeof(GameObject))
+                {
+                    if(field.Name != "myObj")
+                    {
+                        field.SetValue(action, EditorGUILayout.ObjectField(member.Name, (GameObject)(field.GetValue(action)), typeof(GameObject), true));
+                    }
+                }
                 else if (field.FieldType == typeof(Quaternion))
                 {
-                    string RotationScript = "";
-
-                    RotationScript = EditorGUILayout.TextField(member.Name, RotationScript);
-
-                    RotationParser rotPar = new RotationParser(RotationScript);
-
-                    field.SetValue(action,rotPar.finalRotation);
+                    //string RotationScript = "";
+                    //
+                    //RotationScript = EditorGUILayout.TextField(member.Name, RotationScript);
+                    //
+                    //RotationParser rotPar = new RotationParser(RotationScript);
+                    //
+                    //field.SetValue(action,rotPar.finalRotation);
                 }
                 else
                 {

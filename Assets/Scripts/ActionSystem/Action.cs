@@ -14,6 +14,10 @@ namespace Assets.Scripts.ActionSystem
         protected Action()
         {
         }
+        public virtual void Initialize()
+        {
+
+        }
         protected Action(GameObject objectToActOn)
         {
             myObj = objectToActOn;

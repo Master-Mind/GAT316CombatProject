@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Scripts.ActionSystem;
+using Assets.Scripts;
 
 [System.Serializable]
 public class SlerpRotAction : Action
@@ -8,11 +9,25 @@ public class SlerpRotAction : Action
     private float time = 0;
     public float endTime = 0;
     public Quaternion rotTo;
-
+    public string parseDisBoiiiiii;
     public SlerpRotAction()
     {
-
+        
     }
+
+    public override void Initialize()
+    {
+        if (parseDisBoiiiiii != null)
+        {
+            var hella = new RotationParser(parseDisBoiiiiii);
+            rotTo = hella.finalRotation;
+        }
+        else
+        {
+            rotTo = Quaternion.identity;
+        }
+    }
+
     public override bool Execute()
     {
         time += Time.deltaTime;

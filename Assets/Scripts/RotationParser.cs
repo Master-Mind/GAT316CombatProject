@@ -15,10 +15,21 @@ namespace Assets.Scripts
         {
             //tokenize the string
             char[] dilimiters = { ' '};
-            //tokens = new ArrayThatWorks<string>(strToParse.Split(dilimiters));
+            tokens = new ArrayThatWorks<string>(strToParse.Split(dilimiters));
 
             //parse the tokens
-            finalRotation = directions[tokens[0]];
+            if (strToParse != "")
+            {
+                finalRotation = directions[strToParse];
+            }
+            else if (tokens == null || tokens.Count() == 0)
+            {
+                finalRotation = Quaternion.identity;
+            }
+            else
+            {
+                finalRotation = directions[tokens[0]];
+            }
         }
 
         static RotationParser()

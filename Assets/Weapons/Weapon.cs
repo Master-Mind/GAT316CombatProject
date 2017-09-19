@@ -25,6 +25,7 @@ public class Weapon : MonoBehaviour
         RestingRot = transform.localRotation;
         _actions = GetComponent<ActionSystem>();
         _isResting = true;
+        FromJSON();
         //ArrayList group = new ArrayList();
         //ArrayList seq = new ArrayList();
         //
@@ -42,9 +43,12 @@ public class Weapon : MonoBehaviour
         fsData data;
         fsSerializer serializer = new fsSerializer();
 
-        serializer.TrySerialize(QuickMoveset.GetType(), QuickMoveset, out data);
+        if(QuickMoveset != null)
+        {
+            serializer.TrySerialize(QuickMoveset.GetType(), QuickMoveset, out data);
 
-        _serializedQuickMoves = fsJsonPrinter.PrettyJson(data);
+            _serializedQuickMoves = fsJsonPrinter.CompressedJson(data);
+        }
     }
 
     public void FromJSON()
@@ -58,6 +62,29 @@ public class Weapon : MonoBehaviour
 
         fsSerializer serializer = new fsSerializer();
         serializer.TryDeserialize<ArrayThatWorksForActions>(data, ref QuickMoveset);
+
+        resetActObjs(QuickMoveset);
+    }
+
+    private void resetActObjs(ArrayThatWorksForActions actArray)
+    {
+        foreach (Assets.Scripts.ActionSystem.Action move in actArray)
+        {
+            if(move.myObj != gameObject)
+            {
+                DestroyImmediate(move.myObj);
+            }
+            move.myObj = gameObject;
+            move.Initialize();
+            if(move.GetType() == typeof(ActionGroup))
+            {
+                resetActObjs(((ActionGroup)move)._actionList);
+            }
+            else if (move.GetType() == typeof(ActionSequence))
+            {
+                resetActObjs(((ActionSequence)move)._actionList);
+            }
+        }
     }
 	// Update is called once per frame
 	void Update () {
