@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private GameObject _cam;
 
     private CinemachineVirtualCamera _camSettings;
+    public float TurnSpeed = 50;
 	// Use this for initialization
 	void Start ()
 	{
@@ -38,7 +39,7 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(Input.GetAxis("MoveHorizontal")) > 0.1f)
         {
             if(!_lockedOnObject)
-                GetComponent<Transform>().eulerAngles += Vector3.up * Time.deltaTime * 100 * Input.GetAxis("MoveHorizontal");
+                GetComponent<Transform>().eulerAngles += Vector3.up * Time.deltaTime * TurnSpeed * Input.GetAxis("MoveHorizontal");
             else
             {
                 transform.LookAt(_lockedOnObject.transform);

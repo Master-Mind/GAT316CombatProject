@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114603641189401398}
   - component: {fileID: 23192059244179208}
   - component: {fileID: 114009199818887776}
+  - component: {fileID: 114164163591952974}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -108,6 +109,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RestingPos: {x: 0.75, y: 0, z: 0}
   RestingRot: {x: 0, y: 0, z: 0, w: 0}
+  QuickMoveset: {fileID: 0}
+  LongMoveset: {fileID: 0}
+  _serializedQuickMoves: '{"_arrayInternal":[]}'
+  _serializedLongMoves: '{"_arrayInternal":[]}'
+  IsWaiting: 0
+--- !u!114 &114164163591952974
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1375474535342770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b35f64a62d6e4244daf80e89db0f61bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageToDeal: 5
 --- !u!114 &114603641189401398
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -8,6 +8,7 @@ public class CombatController : MonoBehaviour
     public GameObject weapon = null;
     private GameObject _weaponInternal = null;
     private Weapon _weaponComp = null;
+    private DealsDamage _damageDealer = null;
     // Use this for initialization
     void Start ()
     {
@@ -17,8 +18,12 @@ public class CombatController : MonoBehaviour
         _weaponInternal = (GameObject)Instantiate(weapon);
         _weaponInternal.transform.SetParent(_mount.transform);
         _weaponComp = _weaponInternal.GetComponent<Weapon>();
+        _damageDealer = _weaponInternal.GetComponent<DealsDamage>();
+
         _weaponInternal.transform.localPosition = _weaponComp.RestingPos;
-       // _weapon.transform.SetParent(_mount.transform);
+
+        _weaponComp.FromJSON();
+        // _weapon.transform.SetParent(_mount.transform);
     }
 	
 	// Update is called once per frame
@@ -34,5 +39,19 @@ public class CombatController : MonoBehaviour
     public void LongAttack()
     {
         _weaponComp.LongAttack();
+    }
+
+    void OnTriggerEnter(Collider Other)
+    {
+        if(Other.gameObject == _weaponInternal)
+        {
+            return;
+        }
+        Health heath = gameObject.GetComponent<Health>();
+
+        if (heath != null)
+        {
+            heath.DealDamage(Other.GetComponent<DealsDamage>().Damage);
+        }
     }
 }

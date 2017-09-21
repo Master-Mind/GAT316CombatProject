@@ -29,6 +29,7 @@ public class WeaponEditor : Editor
             }
         }
         _editedWeapon = (Weapon) target;
+        _editedWeapon.myObjName = _editedWeapon.gameObject.name;
         _editedWeapon.FromJSON();
         _editedMoveset = serializedObject.FindProperty("QuickMoveset");
         //_editedWeapon.QuickMoveset = new ArrayThatWorksForActions();
@@ -37,6 +38,9 @@ public class WeaponEditor : Editor
         {
             _foldoutBools.Add(false);
         }
+
+        _editedWeapon.resetActObjs(_editedWeapon.QuickMoveset);
+        _editedWeapon.resetActObjs(_editedWeapon.LongMoveset);
     }
     class unityisforfuckbois
     {
@@ -82,6 +86,25 @@ public class WeaponEditor : Editor
         }
     }
 
+    void move(ArrayThatWorksForActions thingToMoveAroundItTo, int thingGettingMoved)
+    {
+        GUILayout.BeginHorizontal();
+        if (thingGettingMoved > 0 && GUILayout.Button("Move Up", GUILayout.Width(80f)))
+        {
+            swap(thingGettingMoved,thingGettingMoved - 1, thingToMoveAroundItTo);
+        }
+        if (thingGettingMoved < thingToMoveAroundItTo.Count() - 1 && GUILayout.Button("Move Down", GUILayout.Width(80f)))
+        {
+            swap(thingGettingMoved, thingGettingMoved + 1, thingToMoveAroundItTo);
+        }
+        GUILayout.EndHorizontal();
+    }
+
+    void swap(int a, int b, ArrayThatWorksForActions sigh)
+    {
+
+    }
+
     void indent(int space)
     {
         EditorGUILayout.BeginHorizontal();
@@ -123,8 +146,9 @@ public class WeaponEditor : Editor
                     if (GUILayout.Button("Remove",GUILayout.Width(100f)))
                     {
                         actionList.RemoveAt(i);
-                        i--;
+                        i++;
                     }
+                    move(actionList, i);
                 }
                 //else
                 {
@@ -141,6 +165,7 @@ public class WeaponEditor : Editor
 
     void editSingleAction(Assets.Scripts.ActionSystem.Action action)
     {
+        GUILayout.Label(action.GetType().Name);
         //TODO: Put shit in this function
         Type actType = action.GetType();
         foreach (var member in actType.GetMembers())

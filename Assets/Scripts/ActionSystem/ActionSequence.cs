@@ -6,16 +6,16 @@ using Assets.Scripts.ActionSystem;
 public class ActionSequence : Action
 {
     public ArrayThatWorksForActions _actionList;
-
+    private int Cur = 0;
     public ActionSequence()
     {
         _actionList = new ArrayThatWorksForActions();
     }
     public override bool Execute()
     {
-        if (((Action) _actionList[_actionList.Count() - 1]).Execute())
+        if (((Action) _actionList[Cur]).Execute())
         {
-            _actionList.RemoveAt(_actionList.Count() - 1);
+            _actionList.RemoveAt(Cur);
         }
 
         return _actionList.Count() == 0;

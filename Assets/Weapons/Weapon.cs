@@ -15,14 +15,14 @@ public class Weapon : MonoBehaviour
     private ActionSystem _actions;
     [SerializeField]
     public ArrayThatWorksForActions QuickMoveset;
+    [SerializeField]
     public ArrayThatWorksForActions LongMoveset;
     private int _quickIndex = 0;
     private bool _isResting = false;
-    [SerializeField]
-    public string _serializedQuickMoves;
-    [SerializeField]
-    public string _serializedLongMoves;
+    private string _serializedQuickMoves;
+    private string _serializedLongMoves;
     public bool IsWaiting = false;
+    public string myObjName;
     // Use this for initialization
     void Start ()
     {
@@ -30,7 +30,8 @@ public class Weapon : MonoBehaviour
         RestingRot = transform.localRotation;
         _actions = GetComponent<ActionSystem>();
         _isResting = true;
-        FromJSON();
+
+
         //ArrayList group = new ArrayList();
         //ArrayList seq = new ArrayList();
         //
@@ -58,11 +59,12 @@ public class Weapon : MonoBehaviour
         {
             serializer.TrySerialize(moves.GetType(), moves, out data);
 
-            MovesetStr = fsJsonPrinter.CompressedJson(data);
+            MovesetStr = fsJsonPrinter.PrettyJson(data);
             var foo = (gameObject.name + moveType + ".txt");
             var file = new FileStream(foo, FileMode.OpenOrCreate);
             byte[] fuck = System.Text.ASCIIEncoding.ASCII.GetBytes(MovesetStr);
-            file.Write(fuck, 0, _serializedQuickMoves.Length);
+            file.Write(fuck, 0, MovesetStr.Length);
+            file.Close();
         }
     }
 
@@ -73,6 +75,7 @@ public class Weapon : MonoBehaviour
 
 
         resetActObjs(QuickMoveset);
+        resetActObjs(LongMoveset);
     }
 
     private ArrayThatWorksForActions fromForArray(ref string serializedMoves, string setName)
@@ -81,17 +84,17 @@ public class Weapon : MonoBehaviour
 		
         if (serializedMoves == null)
         {
-            var fuckcSharp = new FileInfo(gameObject.name + setName + ".txt");
+            var fuckcSharp = new FileInfo(myObjName + setName + ".txt");
 
             if (!fuckcSharp.Exists)
             {
                 return ret;
             }
-            var foo = File.Open(gameObject.name + setName + ".txt", FileMode.Open);
+            var foo = File.Open(myObjName + setName + ".txt", FileMode.Open);
             byte[] boots = new byte[fuckcSharp.Length];
 
             foo.Read(boots, 0, (int)fuckcSharp.Length);
-
+            foo.Close();
             serializedMoves = System.Text.ASCIIEncoding.ASCII.GetString(boots);
         }
         if(serializedMoves != "")
@@ -106,7 +109,7 @@ public class Weapon : MonoBehaviour
         return ret;
     }
 
-    private void resetActObjs(ArrayThatWorksForActions actArray)
+    public void resetActObjs(ArrayThatWorksForActions actArray)
     {
         foreach (Assets.Scripts.ActionSystem.Action move in actArray)
         {
