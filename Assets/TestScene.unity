@@ -640,7 +640,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1343763262}
   m_LocalRotation: {x: 0.12734705, y: -0.00017122761, z: 0.000021984324, w: 0.99185824}
-  m_LocalPosition: {x: -0.000000009138603, y: 7.83, z: -5.9600005}
+  m_LocalPosition: {x: -0.000000009148304, y: 7.83, z: -5.9600005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 476315811}
@@ -1157,6 +1157,7 @@ GameObject:
   - component: {fileID: 1945650113}
   - component: {fileID: 1945650114}
   - component: {fileID: 1945650112}
+  - component: {fileID: 1945650115}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -1294,3 +1295,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 1375474535342770, guid: 201ceab34ddceb9429e4afad9cfe4805, type: 2}
+--- !u!114 &1945650115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1945650105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f356838a28650c4e85b3d78da1a4551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {x: 0, y: 0, z: 0}
+  MovementTarget: {x: 0, y: 0, z: 0}
+  Speed: 0.05

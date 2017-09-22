@@ -8,13 +8,21 @@ public class AIController : MonoBehaviour
     private MovementController controller;
     private GameObject player;
     private int curNode;
+    private AIBehaviors behaviors;
     // Use this for initialization
-    void Start () {
-		
-	}
+    void Start ()
+    {
+        behaviors = GetComponent<AIBehaviors>();
+
+
+    }
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	void Update ()
+    {
+
+        var move = (behaviors.MovementTarget - transform.position).normalized;
+
+
+    }
 }

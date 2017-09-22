@@ -30,6 +30,7 @@ public class WeaponEditor : Editor
         }
         _editedWeapon = (Weapon) target;
         _editedWeapon.myObjName = _editedWeapon.gameObject.name;
+        
         _editedWeapon.FromJSON();
         _editedMoveset = serializedObject.FindProperty("QuickMoveset");
         //_editedWeapon.QuickMoveset = new ArrayThatWorksForActions();
