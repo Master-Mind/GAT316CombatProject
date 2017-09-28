@@ -19,7 +19,7 @@
                     },
                     {
                         "angle": -180.0,
-                        "endTime": 0.5,
+                        "endTime": 0.7,
                         "rotAbout": {
                             "x": 0.0,
                             "y": 0.0,

@@ -61,10 +61,11 @@ public class Weapon : MonoBehaviour
 
             MovesetStr = fsJsonPrinter.PrettyJson(data);
             var foo = (gameObject.name + moveType + ".txt");
-            var file = new FileStream(foo, FileMode.OpenOrCreate);
+            //var file = new FileStream(foo, FileMode.OpenOrCreate);
             byte[] fuck = System.Text.ASCIIEncoding.ASCII.GetBytes(MovesetStr);
-            file.Write(fuck, 0, MovesetStr.Length);
-            file.Close();
+            //file.Write(fuck, 0, MovesetStr.Length);
+            File.WriteAllText(foo, MovesetStr);
+            //file.Close();
         }
     }
 

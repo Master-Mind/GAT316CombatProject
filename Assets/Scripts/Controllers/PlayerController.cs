@@ -24,7 +24,10 @@ public class PlayerController : MonoBehaviour
         _leLookAtMaTron = GameObject.Find("LOOKATME");
 	    _cam = GameObject.Find("MainCamera");
 	    _camSettings = _cam.GetComponent<CinemachineVirtualCamera>();
-	}
+        _camSettings.LookAt = _leLookAtMaTron.transform;
+        _camSettings.Follow = transform;
+
+    }
 	
 	// Update is called once per frame
 	void Update ()
