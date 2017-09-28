@@ -14,6 +14,9 @@ public class MovementController : MonoBehaviour
     private ActionSystem _actions = null;
     private float _effectiveRotation = 0;
     private bool _isDodging;
+    public float dodgeSpeed;
+    public float dodgeLen;
+
     // Use this for initialization
     void Start()
     {
@@ -63,7 +66,12 @@ public class MovementController : MonoBehaviour
     {
         _isDodging = true;
 
-        _actions.AddAction(new DodgeAction(gameObject, dir, 3, 0.3f));
+        _actions.AddAction(new DodgeAction(gameObject, dir, dodgeSpeed, dodgeLen));
+    }
+
+    public bool isDodging()
+    {
+        return _isDodging;
     }
 
     public void Rotate(float rotation)

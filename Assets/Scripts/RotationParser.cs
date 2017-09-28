@@ -16,20 +16,42 @@ namespace Assets.Scripts
             //tokenize the string
             char[] dilimiters = { ' '};
             tokens = new ArrayThatWorks<string>(strToParse.Split(dilimiters));
-
+            finalRotation = Quaternion.identity;
             //parse the tokens
-            if (strToParse != "")
+            foreach (string tok in tokens)
             {
-                finalRotation = directions[strToParse];
+                switch (tok)
+                {
+                    case "+":
+                        break;
+                    default:
+                        if(directions.ContainsKey(tok))
+                        {
+                            finalRotation *= directions[tok];
+                        }
+                        else if(tok.Contains("Rot"))
+                        {
+                            finalRotation *= ParseSubRotation(tok.Substring(3));
+                        }
+                        break;
+                }
             }
-            else if (tokens == null || tokens.Count() == 0)
-            {
-                finalRotation = Quaternion.identity;
-            }
-            else
-            {
-                finalRotation = directions[tokens[0]];
-            }
+            //if (strToParse != "")
+            //{
+            //    finalRotation = directions[strToParse];
+            //}
+        }
+
+        private Quaternion ParseSubRotation(string str)
+        {
+            Vector3 ret = new Vector3();
+            char[] dilimiters = { ' ' , '(', ',', ')'};
+            tokens = new ArrayThatWorks<string>(str.Split(dilimiters));
+            int i = 0;
+            ret.x = float.Parse(tokens[1]);
+            ret.y = float.Parse(tokens[2]);
+            ret.z = float.Parse(tokens[3]);
+            return Quaternion.Euler(ret);
         }
 
         static RotationParser()

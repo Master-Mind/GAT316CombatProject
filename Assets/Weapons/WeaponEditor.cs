@@ -15,12 +15,13 @@ public class WeaponEditor : Editor
     private SerializedProperty _editedMoveset;
     int selected = 0;
     private List<bool> _foldoutBools;
+    List<string> WeaponTypes;
     // Use this for initialization
     void OnEnable()
     {
         Type actType = typeof(Assets.Scripts.ActionSystem.Action);
         var types = actType.Assembly.GetTypes();
-        
+        WeaponTypes = ScanForWeapons();
         foreach (var type in types)
         {
             if (type.IsSubclassOf(actType))
@@ -43,6 +44,21 @@ public class WeaponEditor : Editor
         _editedWeapon.resetActObjs(_editedWeapon.QuickMoveset);
         _editedWeapon.resetActObjs(_editedWeapon.LongMoveset);
     }
+
+    private List<string> ScanForWeapons()
+    {
+        List<string> ret = new List<string>();
+
+        ret.AddRange(System.IO.Directory.GetFiles(Environment.CurrentDirectory, "*k.txt"));
+
+        for(int i = 0; i < ret.Count; ++i)
+        {
+            ret[i] = System.IO.Path.GetFileName(ret[i]);
+        }
+
+        return ret;
+    }
+
     class unityisforfuckbois
     {
         public int foo = 0;
@@ -58,9 +74,19 @@ public class WeaponEditor : Editor
         serializedObject.Update();
         var field = typeof(Weapon).GetField("RestingPos");
         field.SetValue((Weapon)target, EditorGUILayout.Vector3Field(field.Name, (Vector3)field.GetValue((Weapon)target)));
+        //Copying
+        EditorGUILayout.BeginHorizontal();
+        selected = EditorGUILayout.Popup("Copy From", selected, WeaponTypes.ToArray());
+        if (GUILayout.Button("Copy Moveset", GUILayout.Width(100f)))
+        {
+            _editedWeapon.QuickMoveset.Clear();
+        }
+        EditorGUILayout.EndHorizontal();
+        //Clearing
         if (GUILayout.Button("CLEAR ALL NO TOUCHY", GUILayout.Width(500f)))
         {
             _editedWeapon.QuickMoveset.Clear();
+            _editedWeapon.LongMoveset.Clear();
         }
         //get the labels for each type of action
         List<string> labels = new List<string>();
@@ -82,8 +108,8 @@ public class WeaponEditor : Editor
         {
             var thing = (Assets.Scripts.ActionSystem.Action)Activator.CreateInstance(actTypes[selected]);
             thingToAddItTo.Add(thing);
-            _foldoutBools.Add(false);
             thingToAddItTo[0].myObj = _editedWeapon.gameObject;
+            _foldoutBools.Add(false);
         }
     }
 
@@ -103,7 +129,9 @@ public class WeaponEditor : Editor
 
     void swap(int a, int b, ArrayThatWorksForActions sigh)
     {
-
+        var wew = sigh[a];
+        sigh[a] = sigh[b];
+        sigh[b] = wew;
     }
 
     void indent(int space)

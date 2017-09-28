@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114009199818887776}
   - component: {fileID: 114164163591952974}
   m_Layer: 0
-  m_Name: Sword
+  m_Name: SwordEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
   QuickMoveset: {fileID: 0}
   LongMoveset: {fileID: 0}
   IsWaiting: 0
-  myObjName: Sword
+  myObjName: SwordEnemy
 --- !u!114 &114164163591952974
 MonoBehaviour:
   m_ObjectHideFlags: 1

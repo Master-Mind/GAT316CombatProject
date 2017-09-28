@@ -1,3 +1,46 @@
 {
-    "_arrayInternal": []
+    "_arrayInternal": [
+        {
+            "_actionList": {
+                "_arrayInternal": [
+                    {
+                        "endTime": 0.2,
+                        "rotTo": {
+                            "x": -0.7071068,
+                            "y": 0.0,
+                            "z": 0.0,
+                            "w": 0.7071068
+                        },
+                        "parseDisBoiiiiii": "Up",
+                        "myObj": {
+                            "$id": "6"
+                        },
+                        "$type": "SlerpRotAction"
+                    },
+                    {
+                        "angle": 90.0,
+                        "endTime": 0.5,
+                        "rotAbout": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "Axis": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "myObj": {
+                            "$ref": "6"
+                        },
+                        "$type": "SlerpAboutAction"
+                    }
+                ]
+            },
+            "myObj": {
+                "$ref": "6"
+            },
+            "$type": "ActionSequence"
+        }
+    ]
 }

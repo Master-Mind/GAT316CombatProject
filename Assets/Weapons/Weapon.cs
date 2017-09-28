@@ -18,11 +18,13 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     public ArrayThatWorksForActions LongMoveset;
     private int _quickIndex = 0;
+    private int _longIndex = 0;
     private bool _isResting = false;
     private string _serializedQuickMoves;
     private string _serializedLongMoves;
     public bool IsWaiting = false;
     public string myObjName;
+    private Queue<Assets.Scripts.ActionSystem.Action> actionQueue;
     // Use this for initialization
     void Start ()
     {
@@ -30,7 +32,7 @@ public class Weapon : MonoBehaviour
         RestingRot = transform.localRotation;
         _actions = GetComponent<ActionSystem>();
         _isResting = true;
-
+        actionQueue = new Queue<Assets.Scripts.ActionSystem.Action>();
 
         //ArrayList group = new ArrayList();
         //ArrayList seq = new ArrayList();
@@ -83,8 +85,7 @@ public class Weapon : MonoBehaviour
     {
         ArrayThatWorksForActions ret = new ArrayThatWorksForActions();
 		
-        if (serializedMoves == null)
-        {
+       
             var fuckcSharp = new FileInfo(myObjName + setName + ".txt");
 
             if (!fuckcSharp.Exists)
@@ -97,7 +98,7 @@ public class Weapon : MonoBehaviour
             foo.Read(boots, 0, (int)fuckcSharp.Length);
             foo.Close();
             serializedMoves = System.Text.ASCIIEncoding.ASCII.GetString(boots);
-        }
+       
         if(serializedMoves != "")
         {
 
@@ -132,25 +133,33 @@ public class Weapon : MonoBehaviour
     }
 	// Update is called once per frame
 	void Update () {
-		if(!_actions.IsActive && !_isResting)
+		if(!_actions.IsActive)
         {
-            ArrayThatWorksForActions group = new ArrayThatWorksForActions();
-            group.Add(new SlerpRotAction(gameObject, RestingRot, 0.1f));
-            group.Add(new InterpolateAction(gameObject, RestingPos, 0.1f));
-            _actions.AddAction(new ActionSequence(gameObject, group));
-            _isResting = true;
-            _quickIndex = 0;
-
+            if(actionQueue.Count > 0)
+            {
+                _actions.AddAction(actionQueue.Dequeue());
+            }
+            else if(!_isResting)
+            {
+                ArrayThatWorksForActions group = new ArrayThatWorksForActions();
+                group.Add(new SlerpRotAction(gameObject, RestingRot, 0.1f));
+                group.Add(new InterpolateAction(gameObject, RestingPos, 0.1f));
+                _actions.AddAction(new ActionSequence(gameObject, group));
+                _isResting = true;
+                _quickIndex = 0;
+                _longIndex = 0;
+            }
         }
+
 	}
 
     public void QuickAttack()
     {
-        if (!_actions.IsActive || IsWaiting)
+        if (actionQueue.Count < 2)
         {
             _isResting = false;
 
-            _actions.CopyAction(QuickMoveset[_quickIndex]);
+            actionQueue.Enqueue(QuickMoveset[_quickIndex].Copy());
             _quickIndex++;
             if(_quickIndex >= QuickMoveset.Count())
             {
@@ -161,6 +170,16 @@ public class Weapon : MonoBehaviour
 
     public void LongAttack()
     {
+        if (actionQueue.Count < 2)
+        {
+            _isResting = false;
 
+            actionQueue.Enqueue(LongMoveset[_longIndex].Copy());
+            _longIndex++;
+            if (_longIndex >= LongMoveset.Count())
+            {
+                _longIndex = 0;
+            }
+        }
     }
 }

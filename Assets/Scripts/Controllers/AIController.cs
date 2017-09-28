@@ -9,6 +9,7 @@ public class AIController : MonoBehaviour
     private GameObject player;
     private int curNode;
     private AIBehaviors behaviors;
+    public float speed;
     // Use this for initialization
     void Start ()
     {
@@ -32,7 +33,7 @@ public class AIController : MonoBehaviour
         BehaviorTreeSystem.Update(tree);
 
         var move = (behaviors.MovementTarget - transform.position).normalized;
-
-        controller.MoveDir(move);
+        transform.LookAt(player.transform);
+        controller.MoveDir(move * speed);
     }
 }

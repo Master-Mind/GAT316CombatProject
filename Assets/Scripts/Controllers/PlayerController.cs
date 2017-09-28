@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private CombatController _fight;
     private GameObject _leLookAtMaTron;
     public float LateralSpeed = 0;
-
+    private bool curRTrigger;
     private GameObject _lockedOnObject = null;
 
     private GameObject _cam;
@@ -34,6 +34,11 @@ public class PlayerController : MonoBehaviour
     {
         //basic movement
         Vector3 movement = new Vector3();
+
+        if(Input.GetAxis("StrongAttack") > 0)
+        {
+            _fight.LongAttack();
+        }
 
         if (Mathf.Abs(Input.GetAxis("MoveVertical")) > 0.2f)
         {
