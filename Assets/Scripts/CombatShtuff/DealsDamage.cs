@@ -8,6 +8,8 @@ public class DealsDamage : MonoBehaviour
     private float DamageToDeal;
     private float _defaultDamage;
     private float _curDamage;
+    [HideInInspector]
+    public bool DealDamageNow;
     public float Damage
     {
         get

@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Assets.Scripts.ActionSystem;
 using Assets.Scripts;
+using System.IO;
 
 [CustomEditor(typeof(Weapon))]
 public class WeaponEditor : Editor
@@ -14,6 +15,7 @@ public class WeaponEditor : Editor
     private Weapon _editedWeapon;
     private SerializedProperty _editedMoveset;
     int selected = 0;
+    int selectedWep = 0;
     private List<bool> _foldoutBools;
     List<string> WeaponTypes;
     // Use this for initialization
@@ -53,7 +55,8 @@ public class WeaponEditor : Editor
 
         for(int i = 0; i < ret.Count; ++i)
         {
-            ret[i] = System.IO.Path.GetFileName(ret[i]);
+            var foo = System.IO.Path.GetFileName(ret[i]);
+            ret[i] = foo.Substring(0, foo.LastIndexOf('Q'));
         }
 
         return ret;
@@ -76,10 +79,10 @@ public class WeaponEditor : Editor
         field.SetValue((Weapon)target, EditorGUILayout.Vector3Field(field.Name, (Vector3)field.GetValue((Weapon)target)));
         //Copying
         EditorGUILayout.BeginHorizontal();
-        selected = EditorGUILayout.Popup("Copy From", selected, WeaponTypes.ToArray());
+        selectedWep = EditorGUILayout.Popup("Copy From", selectedWep, WeaponTypes.ToArray());
         if (GUILayout.Button("Copy Moveset", GUILayout.Width(100f)))
         {
-            _editedWeapon.QuickMoveset.Clear();
+            LoadInto();
         }
         EditorGUILayout.EndHorizontal();
         //Clearing
@@ -100,6 +103,56 @@ public class WeaponEditor : Editor
 
         selected = EditorGUILayout.Popup("Add Action", selected, labels.ToArray());
         serializedObject.ApplyModifiedProperties();
+    }
+
+    private void LoadInto()
+    {
+        {
+            var fuckcSharp = new FileInfo(WeaponTypes[selectedWep] + "Quick" + ".txt");
+
+            if (!fuckcSharp.Exists)
+            {
+                _editedWeapon.QuickMoveset = new ArrayThatWorksForActions();
+            }
+            var foo = File.Open(WeaponTypes[selectedWep] + "Quick" + ".txt", FileMode.Open);
+            byte[] boots = new byte[fuckcSharp.Length];
+
+            foo.Read(boots, 0, (int)fuckcSharp.Length);
+            foo.Close();
+            _editedWeapon._serializedQuickMoves = System.Text.ASCIIEncoding.ASCII.GetString(boots);
+
+            if (_editedWeapon._serializedQuickMoves != "")
+            {
+
+                FullSerializer.fsData data = FullSerializer.fsJsonParser.Parse(_editedWeapon._serializedQuickMoves);
+
+                FullSerializer.fsSerializer serializer = new FullSerializer.fsSerializer();
+                serializer.TryDeserialize<ArrayThatWorksForActions>(data, ref _editedWeapon.QuickMoveset);
+            }
+        }
+        {
+            var fuckcSharp = new FileInfo(WeaponTypes[selectedWep] + "Long" + ".txt");
+
+            if (!fuckcSharp.Exists)
+            {
+                _editedWeapon.LongMoveset = new ArrayThatWorksForActions();
+            }
+            var foo = File.Open(WeaponTypes[selectedWep] + "Long" + ".txt", FileMode.Open);
+            byte[] boots = new byte[fuckcSharp.Length];
+
+            foo.Read(boots, 0, (int)fuckcSharp.Length);
+            foo.Close();
+            _editedWeapon._serializedLongMoves = System.Text.ASCIIEncoding.ASCII.GetString(boots);
+
+            if (_editedWeapon._serializedLongMoves != "")
+            {
+
+                FullSerializer.fsData data = FullSerializer.fsJsonParser.Parse(_editedWeapon._serializedLongMoves);
+
+                FullSerializer.fsSerializer serializer = new FullSerializer.fsSerializer();
+                serializer.TryDeserialize<ArrayThatWorksForActions>(data, ref _editedWeapon.LongMoveset);
+            }
+        }
     }
 
     void addOption(ArrayThatWorksForActions thingToAddItTo)

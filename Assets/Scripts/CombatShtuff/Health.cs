@@ -27,7 +27,7 @@ public class Health : MonoBehaviour
 
     public void DealDamage(float damage)
     {
-        if(movyForDodgy.isDodging())
+        if(!movyForDodgy.isDodging())
         {
             curHealth -= damage;
             MARKEDFORDEATH = curHealth <= 0;

@@ -20,11 +20,12 @@ public class Weapon : MonoBehaviour
     private int _quickIndex = 0;
     private int _longIndex = 0;
     private bool _isResting = false;
-    private string _serializedQuickMoves;
-    private string _serializedLongMoves;
+    public string _serializedQuickMoves;
+    public string _serializedLongMoves;
     public bool IsWaiting = false;
     public string myObjName;
     private Queue<Assets.Scripts.ActionSystem.Action> actionQueue;
+    private DealsDamage _damageComp;
     // Use this for initialization
     void Start ()
     {
@@ -33,18 +34,7 @@ public class Weapon : MonoBehaviour
         _actions = GetComponent<ActionSystem>();
         _isResting = true;
         actionQueue = new Queue<Assets.Scripts.ActionSystem.Action>();
-
-        //ArrayList group = new ArrayList();
-        //ArrayList seq = new ArrayList();
-        //
-        //
-        //group.Add(new SlerpRotAction(gameObject, Quaternion.AngleAxis(90, Vector3.forward), 0.1f));
-        //group.Add(new InterpolateAction(gameObject, Vector3.right, 0.1f));
-        //seq.Add(new ActionGroup(gameObject, group));
-        //seq.Add(new SlerpAboutAction(gameObject, gameObject, 0.2f, (-180)));
-        //seq.Add(new WaitAction(gameObject, 0.5f));
-        //QuickMoveset = new Action;
-        //QuickMoveset[0] = new ActionSequence(gameObject, seq);
+        _damageComp = GetComponent<DealsDamage>();
     }
 	public void ToJSON()
     {
@@ -63,11 +53,8 @@ public class Weapon : MonoBehaviour
 
             MovesetStr = fsJsonPrinter.PrettyJson(data);
             var foo = (gameObject.name + moveType + ".txt");
-            //var file = new FileStream(foo, FileMode.OpenOrCreate);
             byte[] fuck = System.Text.ASCIIEncoding.ASCII.GetBytes(MovesetStr);
-            //file.Write(fuck, 0, MovesetStr.Length);
             File.WriteAllText(foo, MovesetStr);
-            //file.Close();
         }
     }
 
@@ -151,7 +138,8 @@ public class Weapon : MonoBehaviour
             }
         }
 
-	}
+        _damageComp.DealDamageNow = !_isResting && !IsWaiting;
+    }
 
     public void QuickAttack()
     {
