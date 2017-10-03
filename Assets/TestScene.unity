@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -695,7 +695,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1343763262}
-  m_LocalRotation: {x: 0.12751831, y: -0.0000000017571138, z: 2.259084e-10, w: 0.99183625}
+  m_LocalRotation: {x: 0.12751831, y: -0.0000000017571126, z: 2.2590826e-10, w: 0.99183625}
   m_LocalPosition: {x: 0.00000004715933, y: 7.8300004, z: -6.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -748,8 +748,8 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_Priority: 10
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_LookAt: {fileID: 1602694042}
+  m_Follow: {fileID: 1513646434}
   m_Lens:
     FieldOfView: 40
     OrthographicSize: 10
@@ -1119,6 +1119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 1375474535342770, guid: 201ceab34ddceb9429e4afad9cfe4805, type: 2}
+  stamina: 10
 --- !u!114 &1513646438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1412,6 +1413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapon: {fileID: 1375474535342770, guid: 201ceab34ddceb9429e4afad9cfe4805, type: 2}
+  stamina: 10
 --- !u!114 &1945650115
 MonoBehaviour:
   m_ObjectHideFlags: 0

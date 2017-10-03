@@ -9,6 +9,8 @@ public class CombatController : MonoBehaviour
     private GameObject _weaponInternal = null;
     private Weapon _weaponComp = null;
     private DealsDamage _damageDealer = null;
+
+    public float stamina = 10f;
     // Use this for initialization
     void Start ()
     {

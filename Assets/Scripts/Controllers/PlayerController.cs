@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
 
     private CinemachineVirtualCamera _camSettings;
     public float TurnSpeed = 50;
+
+    private bool _attacked;
 	// Use this for initialization
 	void Start ()
 	{
@@ -34,10 +36,15 @@ public class PlayerController : MonoBehaviour
     {
         //basic movement
         Vector3 movement = new Vector3();
-
-        if(Input.GetAxis("StrongAttack") > 0)
+        var foo = Input.GetAxis("StrongAttack") > 0;
+        if (foo && !_attacked)
         {
             _fight.LongAttack();
+            _attacked = true;
+        }
+        else if(!foo &&_attacked)
+        {
+            _attacked = false;
         }
 
         if (Mathf.Abs(Input.GetAxis("MoveVertical")) > 0.2f)
