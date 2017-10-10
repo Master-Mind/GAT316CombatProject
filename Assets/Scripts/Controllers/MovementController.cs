@@ -16,12 +16,16 @@ public class MovementController : MonoBehaviour
     private bool _isDodging;
     public float dodgeSpeed;
     public float dodgeLen;
-
+    public float Speed;
+    private CombatController _combat;
+    [HideInInspector]
+    public bool IsSprinting;
     // Use this for initialization
     void Start()
     {
         _charControl = GetComponent<CharacterController>();
         _actions = GetComponent<ActionSystem>();
+        _combat = GetComponent<CombatController>();
     }
 
     // Update is called once per frame
@@ -47,7 +51,21 @@ public class MovementController : MonoBehaviour
         {
             _curMove = new Vector3();
         }
-        Vector3 moveComposed = Vector3.down * Gravity + _curMove + curFriction;
+
+        float sprintMod = 2;
+
+        if (!IsSprinting)
+        {
+            sprintMod = 1;
+        }
+
+        if (_combat.IsAttacking())
+        {
+            _curMove /= 5;
+            Debug.Log("Wew");
+        }
+
+        Vector3 moveComposed = Vector3.down * Gravity + Speed * sprintMod * _curMove + curFriction;
 
         _curVelocity += moveComposed;
 
@@ -55,6 +73,7 @@ public class MovementController : MonoBehaviour
         _charControl.Move(_curVelocity * Time.deltaTime);
 
         _curMove = new Vector3();
+        IsSprinting = false;
     }
 
     public void MoveDir(Vector3 move)
@@ -77,5 +96,10 @@ public class MovementController : MonoBehaviour
     public void Rotate(float rotation)
     {
         _effectiveRotation += rotation;
+    }
+
+    public Vector3 GetVelocity()
+    {
+        return _curVelocity;
     }
 }

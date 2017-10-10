@@ -17,12 +17,17 @@ public class Weapon : MonoBehaviour
     public ArrayThatWorksForActions QuickMoveset;
     [SerializeField]
     public ArrayThatWorksForActions LongMoveset;
+    [SerializeField]
+    public ArrayThatWorksForActions ChargeMoveset;
     private int _quickIndex = 0;
     private int _longIndex = 0;
-    private bool _isResting = false;
+    private int _chargeIndex = 0;
+    public bool _isResting = false;
     public string _serializedQuickMoves;
     public string _serializedLongMoves;
-    public bool IsWaiting = false;
+    public string _serializedChargeMoves;
+    [NonSerialized]
+    public bool IsWaiting = true;
     public string myObjName;
     private Queue<Assets.Scripts.ActionSystem.Action> actionQueue;
     private DealsDamage _damageComp;
@@ -40,6 +45,7 @@ public class Weapon : MonoBehaviour
     {
         toForArray(QuickMoveset, "Quick", ref _serializedQuickMoves);
         toForArray(LongMoveset, "Long", ref _serializedLongMoves);
+        toForArray(ChargeMoveset, "Charge", ref _serializedChargeMoves);
 
     }
 
@@ -53,7 +59,6 @@ public class Weapon : MonoBehaviour
 
             MovesetStr = fsJsonPrinter.PrettyJson(data);
             var foo = (gameObject.name + moveType + ".txt");
-            byte[] fuck = System.Text.ASCIIEncoding.ASCII.GetBytes(MovesetStr);
             File.WriteAllText(foo, MovesetStr);
         }
     }
@@ -62,10 +67,12 @@ public class Weapon : MonoBehaviour
     {
         QuickMoveset = fromForArray(ref _serializedQuickMoves, "Quick");
         LongMoveset = fromForArray(ref _serializedLongMoves, "Long");
+        ChargeMoveset = fromForArray(ref _serializedChargeMoves, "Charge");
 
 
         resetActObjs(QuickMoveset);
         resetActObjs(LongMoveset);
+        resetActObjs(ChargeMoveset);
     }
 
     private ArrayThatWorksForActions fromForArray(ref string serializedMoves, string setName)
@@ -143,30 +150,30 @@ public class Weapon : MonoBehaviour
 
     public void QuickAttack()
     {
-        if (actionQueue.Count < 2)
-        {
-            _isResting = false;
-
-            actionQueue.Enqueue(QuickMoveset[_quickIndex].Copy());
-            _quickIndex++;
-            if(_quickIndex >= QuickMoveset.Count())
-            {
-                _quickIndex = 0;
-            }
-        }
+        Attack(ref _quickIndex, QuickMoveset);
     }
 
     public void LongAttack()
+    {
+        Attack(ref _longIndex, LongMoveset);
+    }
+
+    public void ChargeAttack()
+    {
+        Attack(ref _chargeIndex, ChargeMoveset);
+    }
+
+    private void Attack(ref int index, ArrayThatWorksForActions acts)
     {
         if (actionQueue.Count < 2)
         {
             _isResting = false;
 
-            actionQueue.Enqueue(LongMoveset[_longIndex].Copy());
-            _longIndex++;
-            if (_longIndex >= LongMoveset.Count())
+            actionQueue.Enqueue(acts[index].Copy());
+            index++;
+            if (index >= acts.Count())
             {
-                _longIndex = 0;
+                index = 0;
             }
         }
     }

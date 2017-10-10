@@ -19,7 +19,7 @@ public abstract class BTNode
 
     // Use this for initialization
     public abstract void Initialize(ref BTAgentData nodeData, BTNodeData data);
-
+    
     public abstract NodeStatus Enter(ref BTAgentData nodeData);
 
     public abstract void Exit(ref BTAgentData nodeData);

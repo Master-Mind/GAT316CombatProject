@@ -26,6 +26,7 @@ public class BTSelector : BTControlFlowNode
         }
         else if (stat == NodeStatus.Success)
         {
+            nodeData.CurChild = 0;
             return NodeStatus.Success;
         }
         if (nodeData.CurChild == nodeData.ChildIndecies.Count)

@@ -7,6 +7,7 @@ public class CombatController : MonoBehaviour
     private GameObject _mount;
     public GameObject weapon = null;
     private GameObject _weaponInternal = null;
+    private MovementController _movementController;
     private Weapon _weaponComp = null;
     private DealsDamage _damageDealer = null;
 
@@ -23,7 +24,7 @@ public class CombatController : MonoBehaviour
         _damageDealer = _weaponInternal.GetComponent<DealsDamage>();
 
         _weaponInternal.transform.localPosition = _weaponComp.RestingPos;
-
+        _movementController = GetComponent<MovementController>();
         _weaponComp.FromJSON();
         // _weapon.transform.SetParent(_mount.transform);
     }
@@ -33,6 +34,11 @@ public class CombatController : MonoBehaviour
 		
 	}
 
+    public bool IsAttacking()
+    {
+        return !(_weaponComp.IsWaiting || _weaponComp._isResting);
+    }
+
     public void ShortAttack()
     {
         _weaponComp.QuickAttack();
@@ -40,7 +46,10 @@ public class CombatController : MonoBehaviour
 
     public void LongAttack()
     {
-        _weaponComp.LongAttack();
+        if (_movementController.IsSprinting)
+            _weaponComp.ChargeAttack();
+        else
+            _weaponComp.LongAttack();
     }
 
     void OnTriggerEnter(Collider Other)

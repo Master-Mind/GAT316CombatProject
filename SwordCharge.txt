@@ -1,0 +1,101 @@
+{
+    "_arrayInternal": [
+        {
+            "_actionList": {
+                "_arrayInternal": [
+                    {
+                        "endTime": 0.2,
+                        "rotTo": {
+                            "x": -0.7071068,
+                            "y": 0.0,
+                            "z": 0.0,
+                            "w": 0.7071068
+                        },
+                        "parseDisBoiiiiii": "Down",
+                        "myObj": {
+                            "$id": "6"
+                        },
+                        "$type": "SlerpRotAction"
+                    },
+                    {
+                        "angle": 30.0,
+                        "endTime": 0.3,
+                        "rotAbout": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "Axis": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "myObj": {
+                            "$ref": "6"
+                        },
+                        "$type": "SlerpAboutAction"
+                    },
+                    {
+                        "angle": 15.0,
+                        "endTime": 0.3,
+                        "rotAbout": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "Axis": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "myObj": {
+                            "$ref": "6"
+                        },
+                        "$type": "SlerpAboutAction"
+                    },
+                    {
+                        "angle": -45.0,
+                        "endTime": 0.2,
+                        "rotAbout": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "Axis": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "myObj": {
+                            "$ref": "6"
+                        },
+                        "$type": "SlerpAboutAction"
+                    },
+                    {
+                        "endTime": 0.2,
+                        "moveTo": {
+                            "x": 0.4,
+                            "y": 0.0,
+                            "z": 2.0
+                        },
+                        "myObj": {
+                            "$ref": "6"
+                        },
+                        "$type": "InterpolateAction"
+                    },
+                    {
+                        "endTime": 0.2,
+                        "myObj": {
+                            "$ref": "6"
+                        },
+                        "$type": "WaitAction"
+                    }
+                ]
+            },
+            "myObj": {
+                "$ref": "6"
+            },
+            "$type": "ActionSequence"
+        }
+    ]
+}

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Security.Policy;
+using Assets.Scripts.BehaviorTrees;
 
 public enum BTNodeTypes : int
 {
@@ -12,12 +14,24 @@ public enum BTNodeTypes : int
     AttackShort,
     Selector,
     EnoughRoom,
+    Patrol,
+    Negate,
+    RunWhileSuccess,
+    Parrallel,
+    Forever,
+    IgnoreStat,
+    Sequence,
+    RandomSeq,
+    Repeat,
+    AttackLong,
     Count
 }
 public static class BehaviorTreeSystem
 {
 
     public static BTNode [] nodes = new BTNode[(int)BTNodeTypes.Count];
+
+    public static bool StacksHaveBeenDirtied = false;
 	// Use this for initialization
     static BehaviorTreeSystem()
     {
@@ -28,7 +42,18 @@ public static class BehaviorTreeSystem
         nodes[(int)BTNodeTypes.WithinInRange] = new WithinInRange();
         nodes[(int)BTNodeTypes.AttackShort] = new AttackShortRange();
         nodes[(int)BTNodeTypes.Selector] = new BTSelector();
+        nodes[(int)BTNodeTypes.Patrol] = new BTPatrol();
+        nodes[(int)BTNodeTypes.Negate] = new BTNegate();
+        nodes[(int)BTNodeTypes.RunWhileSuccess] = new BTRunWhileSuccess();
+        nodes[(int)BTNodeTypes.Parrallel] = new BTParallel();
+        nodes[(int)BTNodeTypes.Forever] = new BTForever();
+        nodes[(int)BTNodeTypes.IgnoreStat] = new BTIgnoreStatus();
+        nodes[(int)BTNodeTypes.Sequence] = new BTSequence();
+        nodes[(int)BTNodeTypes.Sequence] = new BTRandomSequence();
+        nodes[(int)BTNodeTypes.Repeat] = new BTRepeat();
+        nodes[(int)BTNodeTypes.AttackLong] = new AttackLongRange();
         nodes[(int)BTNodeTypes.EnoughRoom] = new HasEnoughRoom();
+        nodes[(int)BTNodeTypes.RandomSeq] = new BTRandomSequence();
     }
 
     static void Register(BTAgentData nodeData)
@@ -36,30 +61,48 @@ public static class BehaviorTreeSystem
         
     }
 
+    public static BehaviorTree RequestTree(string treeName, GameObject parent)
+    {
+        return new BehaviorTree(parent);
+    }
+
     public static void Update(BehaviorTree tree)
     {
         //update the root
         //update its children
-        if (tree.excecutionStack.Count > 0)
+        bool fist = true;
+        for (int i = 0; i < tree.excecutionStacks.Count; ++i)
         {
-            var node = tree.excecutionStack.Peek();
-            var dat = (BTAgentData)tree.myData[node.Value];
-            ((BTAgentData)tree.myData[node.Value]).CurStatus = nodes[node.Key].Tick(ref dat);
-            if (((BTAgentData)tree.myData[node.Value]).CurStatus == NodeStatus.Failure ||
-                ((BTAgentData)tree.myData[node.Value]).CurStatus == NodeStatus.Success)
+            if (tree.excecutionStacks[i].Count > 0)
             {
-                if (tree.excecutionStack.Count == 1)
+                var node = tree.excecutionStacks[i].Peek();
+                var dat = (BTAgentData)tree.myData[node.Value];
+                ((BTAgentData)tree.myData[node.Value]).CurStatus = nodes[node.Key].Tick(ref dat);
+                if (StacksHaveBeenDirtied)
                 {
-                    ((BTAgentData) tree.myData[node.Value]).CurStatus = NodeStatus.Ready;
+                    StacksHaveBeenDirtied = false;
+                    Update(tree);
+                    return;
                 }
-                else
+                if (((BTAgentData)tree.myData[node.Value]).CurStatus == NodeStatus.Failure ||
+                    ((BTAgentData)tree.myData[node.Value]).CurStatus == NodeStatus.Success)
                 {
-                    tree.excecutionStack.Pop();
+                    if (fist && tree.excecutionStacks[i].Count == 1)
+                    {
+                        ((BTAgentData)tree.myData[node.Value]).CurStatus = NodeStatus.Ready;
+                    }
+                    else
+                    {
+                        nodes[node.Key].Tick(ref dat);
+                        tree.excecutionStacks[i].Pop();
+                    }
                 }
+
+                tree.myData[node.Value] = dat;
+
             }
-
-            tree.myData[node.Value] = dat;
-
+            fist = false;
         }
+        
     }
 }

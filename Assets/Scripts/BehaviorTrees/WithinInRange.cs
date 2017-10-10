@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class RangeData : BTNodeData
@@ -12,9 +13,9 @@ public class RangeData : BTNodeData
     public float maxDist = 0.0f;
 }
 
-public class WithinInRange : BTDecoratorNode
+public class WithinInRange : BTNode
 {
-
+    public static Type DataType = typeof(RangeData);
     public override void Initialize(ref BTAgentData nodeData, BTNodeData data)
     {
         if (data == null)
@@ -24,6 +25,10 @@ public class WithinInRange : BTDecoratorNode
         else
         {
             nodeData.MyData = data;
+            ((RangeData) nodeData.MyData).maxDist = ((RangeData) nodeData.MyData).maxDist *
+                                                    ((RangeData) nodeData.MyData).maxDist;
+            ((RangeData)nodeData.MyData).minDist = ((RangeData)nodeData.MyData).minDist *
+                                                   ((RangeData)nodeData.MyData).minDist;
         }
     }
 
@@ -39,16 +44,13 @@ public class WithinInRange : BTDecoratorNode
 
     public override NodeStatus Update(ref BTAgentData nodeData)
     {
-        var data = GetChild(ref nodeData);
         var behave = nodeData.MyTree.MyGameObject.GetComponent<AIBehaviors>();
         Vector3 toVec = behave.Target - nodeData.MyTree.MyGameObject.transform.position;
 
         //if the distance is too far
         if (((RangeData)nodeData.MyData).minDist < toVec.sqrMagnitude && toVec.sqrMagnitude < ((RangeData)nodeData.MyData).maxDist)
         {
-            NodeStatus stat = (BehaviorTreeSystem.nodes[data.MyType]).Tick(ref data);
-            data.CurStatus = stat;
-            return stat;
+            return NodeStatus.Success;
         }
         else
         {

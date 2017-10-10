@@ -4,7 +4,7 @@
             "_actionList": {
                 "_arrayInternal": [
                     {
-                        "endTime": 0.5,
+                        "endTime": 0.3,
                         "rotTo": {
                             "x": 0.0,
                             "y": 0.0,
@@ -19,7 +19,7 @@
                     },
                     {
                         "angle": 30.0,
-                        "endTime": 0.7,
+                        "endTime": 0.3,
                         "rotAbout": {
                             "x": 0.0,
                             "y": 0.0,
@@ -37,7 +37,7 @@
                     },
                     {
                         "angle": -180.0,
-                        "endTime": 0.3,
+                        "endTime": 0.2,
                         "rotAbout": {
                             "x": 0.0,
                             "y": 0.0,
@@ -90,7 +90,7 @@
                     },
                     {
                         "angle": 180.0,
-                        "endTime": 0.5,
+                        "endTime": 0.4,
                         "rotAbout": {
                             "x": 0.0,
                             "y": 0.0,

@@ -40,7 +40,7 @@ Transform:
   m_GameObject: {fileID: 1375474535342770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1529812, y: 1.5, z: 0.2515148}
+  m_LocalScale: {x: 0.1529812, y: 1, z: 0.2515148}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -111,6 +111,80 @@ MonoBehaviour:
   RestingRot: {x: 0, y: 0, z: 0, w: 0}
   QuickMoveset: {fileID: 0}
   LongMoveset: {fileID: 0}
+  _serializedQuickMoves: "{\r\n    \"_arrayInternal\": [\r\n        {\r\n            \"_actionList\":
+    {\r\n                \"_arrayInternal\": [\r\n                    {\r\n                        \"endTime\":
+    0.5,\r\n                        \"rotTo\": {\r\n                            \"x\":
+    0.0,\r\n                            \"y\": 0.0,\r\n                            \"z\":
+    0.7660444,\r\n                            \"w\": 0.6427876\r\n                        },\r\n
+    \                       \"parseDisBoiiiiii\": \"RollRight + Rot(0,0,10)\",\r\n
+    \                       \"myObj\": {\r\n                            \"$id\": \"6\"\r\n
+    \                       },\r\n                        \"$type\": \"SlerpRotAction\"\r\n
+    \                   },\r\n                    {\r\n                        \"angle\":
+    30.0,\r\n                        \"endTime\": 0.7,\r\n                        \"rotAbout\":
+    {\r\n                            \"x\": 0.0,\r\n                            \"y\":
+    0.0,\r\n                            \"z\": 0.0\r\n                        },\r\n
+    \                       \"Axis\": {\r\n                            \"x\": 0.15,\r\n
+    \                           \"y\": 1.0,\r\n                            \"z\":
+    0.0\r\n                        },\r\n                        \"myObj\": {\r\n
+    \                           \"$ref\": \"6\"\r\n                        },\r\n
+    \                       \"$type\": \"SlerpAboutAction\"\r\n                    },\r\n
+    \                   {\r\n                        \"angle\": -180.0,\r\n                        \"endTime\":
+    0.3,\r\n                        \"rotAbout\": {\r\n                            \"x\":
+    0.0,\r\n                            \"y\": 0.0,\r\n                            \"z\":
+    0.0\r\n                        },\r\n                        \"Axis\": {\r\n                            \"x\":
+    0.15,\r\n                            \"y\": 1.0,\r\n                            \"z\":
+    0.0\r\n                        },\r\n                        \"myObj\": {\r\n
+    \                           \"$ref\": \"6\"\r\n                        },\r\n
+    \                       \"$type\": \"SlerpAboutAction\"\r\n                    },\r\n
+    \                   {\r\n                        \"endTime\": 0.2,\r\n                        \"myObj\":
+    {\r\n                            \"$ref\": \"6\"\r\n                        },\r\n
+    \                       \"$type\": \"WaitAction\"\r\n                    }\r\n
+    \               ]\r\n            },\r\n            \"myObj\": {\r\n                \"$ref\":
+    \"6\"\r\n            },\r\n            \"$type\": \"ActionSequence\"\r\n        },\r\n
+    \       {\r\n            \"_actionList\": {\r\n                \"_arrayInternal\":
+    [\r\n                    {\r\n                        \"angle\": 45.0,\r\n                        \"endTime\":
+    0.3,\r\n                        \"rotAbout\": {\r\n                            \"x\":
+    0.0,\r\n                            \"y\": 0.0,\r\n                            \"z\":
+    0.0\r\n                        },\r\n                        \"Axis\": {\r\n                            \"x\":
+    0.0,\r\n                            \"y\": 0.0,\r\n                            \"z\":
+    1.0\r\n                        },\r\n                        \"myObj\": {\r\n
+    \                           \"$ref\": \"6\"\r\n                        },\r\n
+    \                       \"$type\": \"SlerpAboutAction\"\r\n                    },\r\n
+    \                   {\r\n                        \"angle\": 180.0,\r\n                        \"endTime\":
+    0.5,\r\n                        \"rotAbout\": {\r\n                            \"x\":
+    0.0,\r\n                            \"y\": 0.0,\r\n                            \"z\":
+    0.0\r\n                        },\r\n                        \"Axis\": {\r\n                            \"x\":
+    -0.25,\r\n                            \"y\": 1.0,\r\n                            \"z\":
+    0.0\r\n                        },\r\n                        \"myObj\": {\r\n
+    \                           \"$ref\": \"6\"\r\n                        },\r\n
+    \                       \"$type\": \"SlerpAboutAction\"\r\n                    },\r\n
+    \                   {\r\n                        \"endTime\": 0.1,\r\n                        \"moveTo\":
+    {\r\n                            \"x\": 0.75,\r\n                            \"y\":
+    0.0,\r\n                            \"z\": 0.0\r\n                        },\r\n
+    \                       \"myObj\": {\r\n                            \"$ref\":
+    \"6\"\r\n                        },\r\n                        \"$type\": \"InterpolateAction\"\r\n
+    \                   }\r\n                ]\r\n            },\r\n            \"myObj\":
+    {\r\n                \"$ref\": \"6\"\r\n            },\r\n            \"$type\":
+    \"ActionSequence\"\r\n        }\r\n    ]\r\n}"
+  _serializedLongMoves: "{\r\n    \"_arrayInternal\": [\r\n        {\r\n            \"_actionList\":
+    {\r\n                \"_arrayInternal\": [\r\n                    {\r\n                        \"endTime\":
+    0.2,\r\n                        \"rotTo\": {\r\n                            \"x\":
+    -0.7071068,\r\n                            \"y\": 0.0,\r\n                            \"z\":
+    0.0,\r\n                            \"w\": 0.7071068\r\n                        },\r\n
+    \                       \"parseDisBoiiiiii\": \"Up\",\r\n                        \"myObj\":
+    {\r\n                            \"$id\": \"6\"\r\n                        },\r\n
+    \                       \"$type\": \"SlerpRotAction\"\r\n                    },\r\n
+    \                   {\r\n                        \"angle\": 90.0,\r\n                        \"endTime\":
+    0.5,\r\n                        \"rotAbout\": {\r\n                            \"x\":
+    0.0,\r\n                            \"y\": 0.0,\r\n                            \"z\":
+    0.0\r\n                        },\r\n                        \"Axis\": {\r\n                            \"x\":
+    0.0,\r\n                            \"y\": 0.0,\r\n                            \"z\":
+    0.0\r\n                        },\r\n                        \"myObj\": {\r\n
+    \                           \"$ref\": \"6\"\r\n                        },\r\n
+    \                       \"$type\": \"SlerpAboutAction\"\r\n                    }\r\n
+    \               ]\r\n            },\r\n            \"myObj\": {\r\n                \"$ref\":
+    \"6\"\r\n            },\r\n            \"$type\": \"ActionSequence\"\r\n        }\r\n
+    \   ]\r\n}"
   IsWaiting: 0
   myObjName: SwordEnemy
 --- !u!114 &114164163591952974
@@ -125,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageToDeal: 5
+  DealDamageNow: 0
 --- !u!114 &114603641189401398
 MonoBehaviour:
   m_ObjectHideFlags: 1

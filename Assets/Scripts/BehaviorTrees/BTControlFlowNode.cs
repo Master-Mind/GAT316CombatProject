@@ -26,7 +26,12 @@ public abstract class BTControlFlowNode : BTNode
 
     public NodeStatus RunChild(int child, ref BTAgentData nodeData)
     {
-        return nodeData.MyTree.AddToExcecutionList(GetChild(child, ref nodeData).MyType, GetChild(child, ref nodeData).MyIndex);
+        return nodeData.MyTree.AddToExcecutionList(GetChild(child, ref nodeData).MyType, GetChild(child, ref nodeData).MyIndex, nodeData);
+    }
+
+    public NodeStatus RunChildDifStack(int child, ref BTAgentData nodeData)
+    {
+        return nodeData.MyTree.AddToExcecutionListOnDifferentStack(GetChild(child, ref nodeData).MyType, GetChild(child, ref nodeData).MyIndex, nodeData);
     }
 
     public void ResetChildren(ref BTAgentData nodeData)
@@ -40,5 +45,10 @@ public abstract class BTControlFlowNode : BTNode
     public BTAgentData GetChild(int child, ref BTAgentData nodeData)
     {
         return (BTAgentData)nodeData.MyTree.myData[(int)nodeData.ChildIndecies[child]];
+    }
+
+    public NodeStatus GetChildStatus(int child, ref BTAgentData nodeData)
+    {
+        return ((BTAgentData)nodeData.MyTree.myData[(int)nodeData.ChildIndecies[child]]).CurStatus;
     }
 }

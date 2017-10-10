@@ -16,4 +16,10 @@ public abstract class BTDecoratorNode : BTNode
     {
         return (BTAgentData)nodeData.MyTree.myData[(int)nodeData.ChildIndecies[0]];
     }
+
+    public NodeStatus RunChild(ref BTAgentData nodeData)
+    {
+        GetChild(ref nodeData).CurStatus = NodeStatus.Ready;
+        return nodeData.MyTree.AddToExcecutionList(GetChild(ref nodeData).MyType, GetChild(ref nodeData).MyIndex, nodeData);
+    }
 }

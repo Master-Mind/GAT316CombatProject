@@ -4,41 +4,70 @@
             "_actionList": {
                 "_arrayInternal": [
                     {
-                        "endTime": 0.2,
-                        "rotTo": {
-                            "x": -0.7071068,
-                            "y": 0.0,
-                            "z": 0.0,
-                            "w": 0.7071068
+                        "_actionList": {
+                            "_arrayInternal": [
+                                {
+                                    "endTime": 0.6,
+                                    "moveTo": {
+                                        "x": 0.85,
+                                        "y": 0.0,
+                                        "z": -0.5
+                                    },
+                                    "myObj": {
+                                        "$id": "9"
+                                    },
+                                    "$type": "InterpolateAction"
+                                },
+                                {
+                                    "endTime": 0.6,
+                                    "rotTo": {
+                                        "x": -0.5540323,
+                                        "y": -0.2120122,
+                                        "z": -0.1484525,
+                                        "w": 0.7912401
+                                    },
+                                    "parseDisBoiiiiii": "Rot(-70,-30,0)",
+                                    "myObj": {
+                                        "$ref": "9"
+                                    },
+                                    "$type": "SlerpRotAction"
+                                }
+                            ]
                         },
-                        "parseDisBoiiiiii": "Up",
                         "myObj": {
-                            "$id": "6"
+                            "$ref": "9"
                         },
-                        "$type": "SlerpRotAction"
+                        "$type": "ActionGroup"
                     },
                     {
-                        "angle": 90.0,
-                        "endTime": 0.5,
+                        "angle": -270.0,
+                        "endTime": 0.8,
                         "rotAbout": {
                             "x": 0.0,
                             "y": 0.0,
                             "z": 0.0
                         },
                         "Axis": {
-                            "x": 0.0,
-                            "y": 0.0,
+                            "x": 1.0,
+                            "y": 1.0,
                             "z": 0.0
                         },
                         "myObj": {
-                            "$ref": "6"
+                            "$ref": "9"
                         },
                         "$type": "SlerpAboutAction"
+                    },
+                    {
+                        "endTime": 0.2,
+                        "myObj": {
+                            "$ref": "9"
+                        },
+                        "$type": "WaitAction"
                     }
                 ]
             },
             "myObj": {
-                "$ref": "6"
+                "$ref": "9"
             },
             "$type": "ActionSequence"
         }

@@ -21,6 +21,8 @@ public class TestNode : BTNode
     }
     public override NodeStatus Enter(ref BTAgentData nodeData)
     {
+        var dat = ((TestNodeData)nodeData.MyData);
+        dat.timer = 0;
         return NodeStatus.Running;
     }
 
@@ -32,10 +34,12 @@ public class TestNode : BTNode
     // Update is called once per frame
     public override NodeStatus Update(ref BTAgentData nodeData)
     {
-        nodeData.MyTree.MyGameObject.GetComponent<MovementController>().MoveDir(Vector3.back);
-        ((TestNodeData)nodeData.MyData).timer += Time.deltaTime;
-        if (((TestNodeData) nodeData.MyData).timer >= 0.5f)
+        Debug.Log("testing testing 1 2 3");
+        var dat = ((TestNodeData) nodeData.MyData);
+        dat.timer += Time.deltaTime;
+        if (dat.timer >= 1)
         {
+            Debug.Log("Swiggity Swoggity im fucken dones");
             return NodeStatus.Success;
         }
 

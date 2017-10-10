@@ -27,7 +27,7 @@ public class SlerpAboutAction : Action
     public override bool Execute()
     {
         time += Time.deltaTime;
-        myObj.transform.RotateAround(bazinga.transform.position + rotAbout, Axis, angle * Time.deltaTime * (1 / endTime));
+        myObj.transform.RotateAround(bazinga.transform.position + rotAbout, bazinga.transform.TransformDirection(Axis), angle * Time.deltaTime * (1 / endTime));
         return time >= endTime;
     }
 

@@ -23,8 +23,9 @@ public class ApproachTarget : BTNode
     {
         var behave = nodeData.MyTree.MyGameObject.GetComponent<AIBehaviors>();
 
-        nodeData.MyTree.MyGameObject.GetComponent<AIBehaviors>().MovementTarget = behave.Target;
+        nodeData.MyBehaviors.MovementTarget = behave.Target;
 
+        nodeData.MyBehaviors.Speed = nodeData.MyBehaviors.RunningSpeed;
         return NodeStatus.Running;
     }
 }

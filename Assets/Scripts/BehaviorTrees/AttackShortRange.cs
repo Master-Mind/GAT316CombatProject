@@ -21,8 +21,12 @@ public class AttackShortRange : BTNode
 
     public override NodeStatus Update(ref BTAgentData nodeData)
     {
+        if (nodeData.MyTree.MyGameObject.GetComponent<CombatController>().IsAttacking())
+        {
+            return NodeStatus.Running;
+        }
         nodeData.MyTree.MyGameObject.GetComponent<CombatController>().ShortAttack();
 
-        return NodeStatus.Running;
+        return NodeStatus.Success;
     }
 }

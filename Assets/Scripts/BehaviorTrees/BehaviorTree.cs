@@ -6,17 +6,18 @@ using UnityEngine.Assertions;
 
 public class BehaviorTree
 {
-    public ArrayList myData = new ArrayList();
+    public List<BTAgentData> myData = new List<BTAgentData>();
     private List<BTAgentData> tempArray = new List<BTAgentData>();
     private int lastIndex = 0;
     private int lastDepth = 0;
     private int curIndex = 0;
     public GameObject MyGameObject;
-    public Stack<KeyValuePair<int, int>> excecutionStack = new Stack<KeyValuePair<int, int>>();
+    public List<Stack<KeyValuePair<int, int>>> excecutionStacks = new List<Stack<KeyValuePair<int, int>>>();
     public Stack<BTAgentData> nodeStack = new Stack<BTAgentData>();
     public BehaviorTree(GameObject obj)
     {
         MyGameObject = obj;
+        excecutionStacks.Add(new Stack<KeyValuePair<int, int>>());
     }
     public BehaviorTree AddNode(int nodeIndex, int depth, BTNodeData data = null)
     {
@@ -24,7 +25,8 @@ public class BehaviorTree
         {
             MyType = nodeIndex,
             MyTree = this,
-            MyIndex = curIndex++
+            MyIndex = curIndex++,
+            MyBehaviors = MyGameObject.GetComponent<AIBehaviors>()
         };
 
         if (nodeStack.Count == 0)
@@ -64,15 +66,61 @@ public class BehaviorTree
         return this;
     }
 
-    public NodeStatus AddToExcecutionList(int type, int index)
+    public NodeStatus AddToExcecutionList(int type, int index, BTAgentData nodeData)
     {
-        excecutionStack.Push(new KeyValuePair<int, int>(type, index));
+        excecutionStacks[nodeData.MyStackIndex].Push(new KeyValuePair<int, int>(type, index));
+        ((BTAgentData)myData[index]).MyStackIndex = nodeData.MyStackIndex;
 
         return NodeStatus.Ready;
     }
 
+    public NodeStatus AddToExcecutionListOnDifferentStack(int type, int index, BTAgentData nodeData)
+    {
+        int selectissimo = GetEmptyStack();
+        excecutionStacks[selectissimo].Push(new KeyValuePair<int, int>(type, index));
+
+        ((BTAgentData) myData[index]).MyStackIndex = selectissimo;
+
+        return NodeStatus.Ready;
+    }
+
+    private int GetEmptyStack()
+    {
+        for(int i = 0; i < excecutionStacks.Count; ++i)
+        {
+            if (excecutionStacks[i].Count == 0)
+            {
+                return i;
+            }
+        }
+
+        excecutionStacks.Add(new Stack<KeyValuePair<int, int>>());
+
+        return excecutionStacks.Count - 1;
+    }
+
+    public void ClearStack(int stackIndex)
+    {
+        //clear this stack
+        while (excecutionStacks[stackIndex].Count > 0)
+        {
+            var node = excecutionStacks[stackIndex].Peek();
+            var dat = (BTAgentData)myData[node.Value];
+            //go through each child and clear their stacks recursively
+            for (int i = 0; i < dat.ChildIndecies.Count; ++i)
+            {
+                if (myData[dat.ChildIndecies[i]].MyStackIndex > stackIndex)
+                {
+                    ClearStack(myData[dat.ChildIndecies[i]].MyStackIndex);
+                }
+            }
+
+            excecutionStacks[stackIndex].Pop();
+        }
+    }
+
     public void Initialize()
     {
-        AddToExcecutionList(((BTAgentData)myData[0]).MyType, ((BTAgentData)myData[0]).MyIndex);
+        AddToExcecutionList(((BTAgentData)myData[0]).MyType, ((BTAgentData)myData[0]).MyIndex, (BTAgentData)myData[0]);
     }
 }
