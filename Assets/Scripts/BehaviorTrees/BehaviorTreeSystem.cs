@@ -24,6 +24,7 @@ public enum BTNodeTypes : int
     RandomSeq,
     Repeat,
     AttackLong,
+    AttackTrig,
     Count
 }
 public static class BehaviorTreeSystem
@@ -54,6 +55,7 @@ public static class BehaviorTreeSystem
         nodes[(int)BTNodeTypes.AttackLong] = new AttackLongRange();
         nodes[(int)BTNodeTypes.EnoughRoom] = new HasEnoughRoom();
         nodes[(int)BTNodeTypes.RandomSeq] = new BTRandomSequence();
+        nodes[(int)BTNodeTypes.AttackTrig] = new BTAttack();
     }
 
     static void Register(BTAgentData nodeData)

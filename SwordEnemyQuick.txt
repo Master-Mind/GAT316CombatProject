@@ -4,7 +4,7 @@
             "_actionList": {
                 "_arrayInternal": [
                     {
-                        "endTime": 0.3,
+                        "endTime": 0.2,
                         "rotTo": {
                             "x": 0.0,
                             "y": 0.0,
@@ -18,8 +18,20 @@
                         "$type": "SlerpRotAction"
                     },
                     {
+                        "endTime": 0.1,
+                        "moveTo": {
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "myObj": {
+                            "$ref": "6"
+                        },
+                        "$type": "InterpolateAction"
+                    },
+                    {
                         "angle": 30.0,
-                        "endTime": 0.3,
+                        "endTime": 0.1,
                         "rotAbout": {
                             "x": 0.0,
                             "y": 0.0,
@@ -37,7 +49,7 @@
                     },
                     {
                         "angle": -180.0,
-                        "endTime": 0.2,
+                        "endTime": 0.1,
                         "rotAbout": {
                             "x": 0.0,
                             "y": 0.0,
@@ -54,7 +66,7 @@
                         "$type": "SlerpAboutAction"
                     },
                     {
-                        "endTime": 0.2,
+                        "endTime": 0.1,
                         "myObj": {
                             "$ref": "6"
                         },
@@ -90,7 +102,7 @@
                     },
                     {
                         "angle": 180.0,
-                        "endTime": 0.4,
+                        "endTime": 0.1,
                         "rotAbout": {
                             "x": 0.0,
                             "y": 0.0,

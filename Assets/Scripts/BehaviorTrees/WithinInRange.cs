@@ -46,7 +46,7 @@ public class WithinInRange : BTNode
     {
         var behave = nodeData.MyTree.MyGameObject.GetComponent<AIBehaviors>();
         Vector3 toVec = behave.Target - nodeData.MyTree.MyGameObject.transform.position;
-
+        
         //if the distance is too far
         if (((RangeData)nodeData.MyData).minDist < toVec.sqrMagnitude && toVec.sqrMagnitude < ((RangeData)nodeData.MyData).maxDist)
         {

@@ -18,6 +18,7 @@ public class BTIdle : BTNode {
 
     public override NodeStatus Update(ref BTAgentData nodeData)
     {
+        nodeData.MyBehaviors.MovementTarget = nodeData.MyBehaviors.transform.position;
         return NodeStatus.Running;
     }
 }

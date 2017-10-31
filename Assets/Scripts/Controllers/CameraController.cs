@@ -7,6 +7,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public GameObject LookAt;
+    public GameObject LockDisplay;
     private float _curRot = 0;
     public float RotateSpeed = 1;
     private GameObject _lockedOnObject = null;
@@ -26,8 +27,7 @@ public class CameraController : MonoBehaviour
 	    {
 	        if (!_lockedOnObject)
 	        {
-	            var enemies = GameObject.FindGameObjectsWithTag("Enemy");
-	            _lockedOnObject = enemies[0];
+                LockOn();
 	        }
 	        else
 	        {
@@ -37,11 +37,14 @@ public class CameraController : MonoBehaviour
 	    if (_lockedOnObject)
 	    {
 	        LookAt.transform.position = transform.position + (_lockedOnObject.transform.position - transform.position) / 2;
-	        //change how the gosh darn camera is recentered
-	        //_camSettings.GetCinemachineComponent<CinemachineOrbitalTransposer>().m_RecenterToTargetHeading.m_HeadingDefinition = CinemachineOrbitalTransposer.Recentering.HeadingDerivationMode.WorldForward;
+
+	        LockDisplay.transform.position = _lockedOnObject.transform.position;
+	        _camSettings.GetCinemachineComponent<CinemachineOrbitalTransposer>().m_HeadingBias = 3;
+
 	    }
 	    else
 	    {
+	        LockDisplay.transform.localPosition = Vector3.zero;
             //change how the gosh darn camera is recentered
             _camSettings.GetCinemachineComponent<CinemachineOrbitalTransposer>().m_RecenterToTargetHeading.m_HeadingDefinition = CinemachineOrbitalTransposer.Recentering.HeadingDerivationMode.TargetForward;
 	        LookAt.transform.localPosition = Vector3.forward * 3.5f;
@@ -59,5 +62,23 @@ public class CameraController : MonoBehaviour
     public Transform GetLockedTransform()
     {
         return _lockedOnObject.transform;
+    }
+
+    public void LockOn()
+    {
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        float minAngle = float.MaxValue;
+        foreach (var enemy in enemies)
+        {
+            var toVec = enemy.transform.position - transform.position;
+            var foo = Vector3.Angle(toVec, transform.forward);
+            float angle = foo * foo * toVec.sqrMagnitude;
+            if (angle < minAngle)
+            {
+                minAngle = angle;
+                _lockedOnObject = enemy;
+            }
+        }
     }
 }

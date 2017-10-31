@@ -7,9 +7,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
+using Action = Assets.Scripts.ActionSystem.Action;
 
 public class Weapon : MonoBehaviour
 {
+    public struct AttackPair
+    {
+        public Action Act;
+        public float Damage;
+
+        public AttackPair(Action act, float damage)
+        {
+            Act = act;
+            Damage = damage;
+        }
+    }
     public Vector3 RestingPos;
     public Quaternion RestingRot;
     private ActionSystem _actions;
@@ -29,8 +41,16 @@ public class Weapon : MonoBehaviour
     [NonSerialized]
     public bool IsWaiting = true;
     public string myObjName;
-    private Queue<Assets.Scripts.ActionSystem.Action> actionQueue;
+    private Queue<AttackPair> actionQueue;
     private DealsDamage _damageComp;
+    private float _quickTim;
+    private float _longTim;
+    private float _chargeTim;
+    public float QuickDamage;
+    public float LongDamage;
+    public float ChargeDamage;
+    public CombatController MyController;
+    public bool IsPlayers;
     // Use this for initialization
     void Start ()
     {
@@ -38,8 +58,9 @@ public class Weapon : MonoBehaviour
         RestingRot = transform.localRotation;
         _actions = GetComponent<ActionSystem>();
         _isResting = true;
-        actionQueue = new Queue<Assets.Scripts.ActionSystem.Action>();
+        actionQueue = new Queue<AttackPair>();
         _damageComp = GetComponent<DealsDamage>();
+        IsPlayers = transform.root.gameObject.name == "Player";
     }
 	public void ToJSON()
     {
@@ -126,55 +147,103 @@ public class Weapon : MonoBehaviour
         }
     }
 	// Update is called once per frame
-	void Update () {
-		if(!_actions.IsActive)
+	void Update ()
+    {
+        _isResting = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Rest");
+        if (!IsPlayers)
         {
-            if(actionQueue.Count > 0)
-            {
-                _actions.AddAction(actionQueue.Dequeue());
-            }
-            else if(!_isResting)
-            {
-                ArrayThatWorksForActions group = new ArrayThatWorksForActions();
-                group.Add(new SlerpRotAction(gameObject, RestingRot, 0.1f));
-                group.Add(new InterpolateAction(gameObject, RestingPos, 0.1f));
-                _actions.AddAction(new ActionSequence(gameObject, group));
-                _isResting = true;
-                _quickIndex = 0;
-                _longIndex = 0;
-            }
+            return;
         }
+        if (_quickIndex > 0)
+	    {
+	        _quickIndex--;
+	        _quickTim = 0.25f;
+	    }
+        if (_longIndex > 0)
+        {
+            _longIndex--;
+            _longTim = 0.25f;
+        }
+        if (_chargeIndex > 0)
+        {
+            _chargeIndex--;
+            _chargeTim = 0.25f;
+        }
+        GetComponent<Animator>().SetBool("QuickAttack", _quickTim > 0);
+        GetComponent<Animator>().SetBool("LongAttack", _longTim > 0);
+        GetComponent<Animator>().SetBool("ChargeAttack", _chargeTim > 0);
+        _quickTim -= Time.deltaTime;
+        _longTim -= Time.deltaTime;
+        _chargeTim -= Time.deltaTime;
+        AttackAnimBehave behave = null;
+        //if(gameObject.name.Contains("Falx"))
+        //Debug.Log(_damageComp.Damage);
+        //if (!_actions.IsActive)
+        //{
+        //    
+        //    if(actionQueue.Count > 0)
+        //    {
+        //        var temp = actionQueue.Dequeue();
+        //        _actions.AddAction(temp.Act);
+        //        _damageComp.SetDamage(temp.Damage);
+        //    }
+        //    else if(!_isResting)
+        //    {
+        //        _damageComp.SetDamage(0);
+        //        ArrayThatWorksForActions group = new ArrayThatWorksForActions();
+        //        group.Add(new SlerpRotAction(gameObject, RestingRot, 0.1f));
+        //        group.Add(new InterpolateAction(gameObject, RestingPos, 0.1f));
+        //        _actions.AddAction(new ActionSequence(gameObject, group));
+        //        _isResting = true;
+        //        _quickIndex = 0;
+        //        _longIndex = 0;
+        //    }
+        //}
 
-        _damageComp.DealDamageNow = !_isResting && !IsWaiting;
+        _damageComp.DealDamageNow = !_isResting;
     }
 
+    public void PlaySound(AudioClip clip)
+    {
+        GetComponent<AudioSource>().PlayOneShot(clip);
+    }
     public void QuickAttack()
     {
-        Attack(ref _quickIndex, QuickMoveset);
+        //Attack(ref _quickIndex, QuickMoveset, QuickDamage);
+        _quickIndex++;
+    }
+
+    public void CloseDistance(float distance)
+    {
+        MyController.CloseDistance(distance);
     }
 
     public void LongAttack()
     {
-        Attack(ref _longIndex, LongMoveset);
+        //Attack(ref _longIndex, LongMoveset, LongDamage);
+        _longIndex++;
     }
 
     public void ChargeAttack()
     {
-        Attack(ref _chargeIndex, ChargeMoveset);
+        //Attack(ref _chargeIndex, ChargeMoveset, ChargeDamage);
+        _chargeIndex++;
     }
 
-    private void Attack(ref int index, ArrayThatWorksForActions acts)
+    public void Attack(string triggerName)
     {
-        if (actionQueue.Count < 2)
-        {
-            _isResting = false;
+        GetComponent<Animator>().SetTrigger(triggerName);
+    }
 
-            actionQueue.Enqueue(acts[index].Copy());
-            index++;
-            if (index >= acts.Count())
-            {
-                index = 0;
-            }
-        }
+    public void ForceRest()
+    {
+        GetComponent<Animator>().SetTrigger("Stagger");
+    }
+
+    public void SetStaggerable(int staggerable)
+    {
+
+        transform.root.GetComponent<Health>().CanStagger = staggerable != 0;
+        Debug.Log("Stag:" + transform.root.GetComponent<Health>().CanStagger);
     }
 }

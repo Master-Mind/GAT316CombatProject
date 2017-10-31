@@ -19,7 +19,7 @@ public class DodgeAction : Action
     {
         time += Time.deltaTime;
         float x = (Time.deltaTime / endTime) * _speed;
-        _charControl.Move(_dir * x + Vector3.up * -(time - (endTime * _speed / 2)) / 3);
+        _charControl.Move(_dir * x);// + Vector3.up * -(time - (endTime * _speed / 2)) / 3);
 
 
 

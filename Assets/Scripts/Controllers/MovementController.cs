@@ -20,6 +20,8 @@ public class MovementController : MonoBehaviour
     private CombatController _combat;
     [HideInInspector]
     public bool IsSprinting;
+    [HideInInspector]
+    public Vector3 ScootTarg = Vector3.zero;
     // Use this for initialization
     void Start()
     {
@@ -61,17 +63,27 @@ public class MovementController : MonoBehaviour
 
         if (_combat.IsAttacking())
         {
-            _curMove /= 5;
-            Debug.Log("Wew");
+            if (ScootTarg.sqrMagnitude > 0.001f)
+            {
+                _curMove = (ScootTarg) * Time.deltaTime * 10;
+            }
+            else
+            {
+                _curMove /= 5;
+            }
+        }
+        else
+        {
+            ScootTarg = Vector3.zero;
         }
 
         Vector3 moveComposed = Vector3.down * Gravity + Speed * sprintMod * _curMove + curFriction;
 
         _curVelocity += moveComposed;
-
+        
 
         _charControl.Move(_curVelocity * Time.deltaTime);
-
+        _curVelocity = _charControl.velocity;
         _curMove = new Vector3();
         IsSprinting = false;
     }

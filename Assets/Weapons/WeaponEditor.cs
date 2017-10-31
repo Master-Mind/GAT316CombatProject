@@ -76,8 +76,6 @@ public class WeaponEditor : Editor
     {
         //update the properties of the object
         serializedObject.Update();
-        var field = typeof(Weapon).GetField("RestingPos");
-        field.SetValue((Weapon)target, EditorGUILayout.Vector3Field(field.Name, (Vector3)field.GetValue((Weapon)target)));
         //Copying
         EditorGUILayout.BeginHorizontal();
         selectedWep = EditorGUILayout.Popup("Copy From", selectedWep, WeaponTypes.ToArray());
@@ -86,6 +84,18 @@ public class WeaponEditor : Editor
             LoadInto();
         }
         EditorGUILayout.EndHorizontal();
+        var field = typeof(Weapon).GetField("RestingPos");
+        field.SetValue((Weapon)target, EditorGUILayout.Vector3Field(field.Name, (Vector3)field.GetValue((Weapon)target)));
+        //damages
+        field = typeof(Weapon).GetField("QuickDamage");
+        field.SetValue((Weapon)target, EditorGUILayout.FloatField(field.Name, (float)field.GetValue((Weapon)target)));
+
+        field = typeof(Weapon).GetField("LongDamage");
+        field.SetValue((Weapon)target, EditorGUILayout.FloatField(field.Name, (float)field.GetValue((Weapon)target)));
+
+        field = typeof(Weapon).GetField("ChargeDamage");
+        field.SetValue((Weapon)target, EditorGUILayout.FloatField(field.Name, (float)field.GetValue((Weapon)target)));
+
         //Clearing
         if (GUILayout.Button("CLEAR ALL NO TOUCHY", GUILayout.Width(500f)))
         {

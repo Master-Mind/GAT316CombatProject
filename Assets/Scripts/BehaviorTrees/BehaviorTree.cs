@@ -114,7 +114,7 @@ public class BehaviorTree
                     ClearStack(myData[dat.ChildIndecies[i]].MyStackIndex);
                 }
             }
-
+            BehaviorTreeSystem.nodes[dat.MyType].Exit(ref dat);
             excecutionStacks[stackIndex].Pop();
         }
     }

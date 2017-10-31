@@ -26,6 +26,7 @@ public class CombatController : MonoBehaviour
         _weaponInternal.transform.localPosition = _weaponComp.RestingPos;
         _movementController = GetComponent<MovementController>();
         _weaponComp.FromJSON();
+        _weaponComp.MyController = this;
         // _weapon.transform.SetParent(_mount.transform);
     }
 	
@@ -34,9 +35,24 @@ public class CombatController : MonoBehaviour
 		
 	}
 
+    public void CloseDistance(float dist)
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+
+        var hits = Physics.RaycastAll(ray, dist);
+
+        foreach (var hit in hits)
+        {
+            if (hit.transform.GetComponent<CombatController>())
+            {
+                _movementController.ScootTarg = (hit.point - transform.position);
+            }
+        }
+    }
+
     public bool IsAttacking()
     {
-        return !(_weaponComp.IsWaiting || _weaponComp._isResting);
+        return !(_weaponComp._isResting);
     }
 
     public void ShortAttack()
@@ -52,6 +68,16 @@ public class CombatController : MonoBehaviour
             _weaponComp.LongAttack();
     }
 
+    public void AttackTrigger(string triggerName)
+    {
+        _weaponComp.Attack(triggerName);
+    }
+
+    public void Stagger()
+    {
+        _weaponComp.ForceRest();
+    }
+
     void OnTriggerEnter(Collider Other)
     {
         if(Other.gameObject == _weaponInternal)
@@ -62,7 +88,14 @@ public class CombatController : MonoBehaviour
 
         if (heath != null)
         {
-            heath.DealDamage(Other.GetComponent<DealsDamage>().Damage);
+            if (Other.GetComponent<DealsDamage>())
+            {
+                heath.DealDamage(Other.GetComponent<DealsDamage>().Damage);
+            }
+            else
+            {
+                heath.DealDamage(Other.transform.parent.GetComponent<DealsDamage>().Damage);
+            }
         }
     }
 }

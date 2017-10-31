@@ -34,12 +34,10 @@ public class TestNode : BTNode
     // Update is called once per frame
     public override NodeStatus Update(ref BTAgentData nodeData)
     {
-        Debug.Log("testing testing 1 2 3");
         var dat = ((TestNodeData) nodeData.MyData);
         dat.timer += Time.deltaTime;
         if (dat.timer >= 1)
         {
-            Debug.Log("Swiggity Swoggity im fucken dones");
             return NodeStatus.Success;
         }
 

@@ -43,4 +43,9 @@ public class DealsDamage : MonoBehaviour
             heath.DealDamage(_curDamage);
         }
     }
+
+    public void SetDamage(float newDamage)
+    {
+        _curDamage = newDamage;
+    }
 }

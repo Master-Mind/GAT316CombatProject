@@ -4,7 +4,7 @@ using Assets.Scripts.ActionSystem;
 
 public class ActionSystem : MonoBehaviour
 {
-    private static ArrayList _actions = new ArrayList();
+    private ArrayList _actions = new ArrayList();
     public bool IsActive = false;
 	// Use this for initialization
 	void Start ()

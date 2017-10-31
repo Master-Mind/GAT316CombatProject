@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BTRandomSequence : BTControlFlowNode
 {
@@ -8,6 +9,7 @@ public class BTRandomSequence : BTControlFlowNode
     {
         nodeData.CurChild = Mathf.RoundToInt(Random.value * (float)nodeData.ChildIndecies.Count);
         nodeData.MyData = new RandomData();
+        
     }
     public override NodeStatus Enter(ref BTAgentData nodeData)
     {
@@ -24,14 +26,14 @@ public class BTRandomSequence : BTControlFlowNode
         NodeStatus stat = GetChild(nodeData.CurChild, ref nodeData).CurStatus;
         if (stat == NodeStatus.Failure)
         {
-            var foo = (Random.value * (float) nodeData.ChildIndecies.Count);
-            foo *= 1;
-            nodeData.CurChild = (int)foo;
+            var foo = (int)Mathf.FloorToInt(Random.value * (float) nodeData.ChildIndecies.Count);
+            nodeData.CurChild = foo;
             ((RandomData) nodeData.MyData).numTried++;
         }
         else if (stat == NodeStatus.Success)
         {
-            nodeData.CurChild = (int)(Random.value * (float)nodeData.ChildIndecies.Count);
+            var foo = (int)Mathf.FloorToInt(Random.value * (float)nodeData.ChildIndecies.Count);
+            nodeData.CurChild = foo;
             ((RandomData)nodeData.MyData).numTried++;
         }
         if (((RandomData)nodeData.MyData).numTried == nodeData.ChildIndecies.Count)
