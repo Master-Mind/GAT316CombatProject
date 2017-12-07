@@ -33,7 +33,11 @@ public class MovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_isDodging)
+        if (GetComponent<Health>() != null && GetComponent<Health>().MARKEDFORDEATH)
+        {
+            return;
+        }
+        if (_isDodging)
         {
             if(!_actions.IsActive)
             {
@@ -61,7 +65,7 @@ public class MovementController : MonoBehaviour
             sprintMod = 1;
         }
 
-        if (_combat.IsAttacking())
+        if (_combat != null && _combat.IsAttacking())
         {
             if (ScootTarg.sqrMagnitude > 0.001f)
             {
@@ -80,7 +84,6 @@ public class MovementController : MonoBehaviour
         Vector3 moveComposed = Vector3.down * Gravity + Speed * sprintMod * _curMove + curFriction;
 
         _curVelocity += moveComposed;
-        
 
         _charControl.Move(_curVelocity * Time.deltaTime);
         _curVelocity = _charControl.velocity;
@@ -95,7 +98,7 @@ public class MovementController : MonoBehaviour
 
     public void Dodge(Vector3 dir)
     {
-        _isDodging = true;
+         _isDodging = true;
 
         _actions.AddAction(new DodgeAction(gameObject, dir, dodgeSpeed, dodgeLen));
     }

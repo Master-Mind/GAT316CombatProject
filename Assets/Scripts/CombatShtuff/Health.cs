@@ -6,7 +6,8 @@ public class Health : MonoBehaviour
 {
     private float curHealth;
     public float MaxHealth;
-    private bool MARKEDFORDEATH = false;
+    public bool MARKEDFORDEATH = false;
+    private float DeathTim = 1;
     private MovementController movyForDodgy;
     private MeshRenderer _mesh;
     private float _colorMod = 0;
@@ -16,7 +17,8 @@ public class Health : MonoBehaviour
     public float PoiseRecovery = 1;
     private float _curPoise = 10;
     public bool IsStaggered;
-
+    public AudioClip[] HurtClips;
+    public AudioClip[] DeathClips;
     public bool CanStagger;
 	// Use this for initialization
 	void Start ()
@@ -26,11 +28,16 @@ public class Health : MonoBehaviour
         movyForDodgy = GetComponent<MovementController>();
         _mesh = GetComponent<MeshRenderer>();
 	    _curPoise = Poise;
-	}
+	    Debug.Assert(HurtClips.Length > 0, "ERROR IN HEALTH: No hurtclips provided for " + gameObject.name);
+    }
 	
 	// Update is called once per frame
 	void Update ()
 	{
+	    if (Input.GetKeyDown(KeyCode.K) && gameObject.name == "Player")
+	    {
+	        DealDamage(float.MaxValue);
+	    }
 	    _mesh.material.color = new Color(1, _colorMod, _colorMod);
 	    if (_colorMod < 1)
 	    {
@@ -39,6 +46,15 @@ public class Health : MonoBehaviour
 	    }
         if (MARKEDFORDEATH)
         {
+            DeathTim -= Time.deltaTime;
+            var forw = transform.forward;
+            forw.y = 0;
+
+            //for glitchy do transform.right
+            transform.rotation = Quaternion.LookRotation(forw, Vector3.up) *
+                                 Quaternion.AngleAxis(90 * Mathf.Cos(Mathf.PI / 2 * DeathTim), Vector3.right); 
+            _stageTim -= Time.deltaTime;
+            if (DeathTim <= 0)
             Destroy(gameObject);
         }
 	    if (Input.GetKeyDown(KeyCode.P))
@@ -54,14 +70,16 @@ public class Health : MonoBehaviour
         
         if (IsStaggered)
         {
-
+            var forw = transform.forward;
+            forw.y = 0;
+            
             //for glitchy do transform.right
-            transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, transform.eulerAngles.z) *
+            transform.rotation = Quaternion.LookRotation(forw, Vector3.up) *
                                  Quaternion.AngleAxis(30 * Mathf.Sin(Mathf.PI * (_stageTim / StaggerTime)), Vector3.right);
             _stageTim -= Time.deltaTime;
 
 	    }
-        else
+        else if (!MARKEDFORDEATH)
         {
             transform.rotation = Quaternion.Euler(0, transform.eulerAngles.y, transform.eulerAngles.z);
         }
@@ -74,7 +92,15 @@ public class Health : MonoBehaviour
             _colorMod = 0;
             curHealth -= damage;
             MARKEDFORDEATH = curHealth <= 0;
-            if (CanStagger)
+            if (gameObject.name == "Player")
+            {
+                GetComponent<PlayerController>().MyController.VibrateFor(1, Mathf.Min(damage, MaxHealth) / MaxHealth);
+            }
+            if (MARKEDFORDEATH)
+            {
+                PlayDeath();
+            }
+            else if (CanStagger)
             {
                 _curPoise -= damage;
                 if (_curPoise < 0)
@@ -82,6 +108,7 @@ public class Health : MonoBehaviour
                     _curPoise = Poise;
                     GetComponent<CombatController>().Stagger();
                     _stageTim = StaggerTime;
+                    GetComponent<AudioSource>().PlayOneShot(HurtClips[Random.Range(0,HurtClips.Length)]);
                 }
             }
         }
@@ -90,5 +117,19 @@ public class Health : MonoBehaviour
     public float GetHealth()
     {
         return curHealth;
+    }
+
+    private void PlayDeath()
+    {
+        var foo = new GameObject("wew", typeof(AudioSource));
+        foreach (var clip in DeathClips)
+        {
+            foo.GetComponent<AudioSource>().PlayOneShot(clip);
+        }
+    }
+
+    public void HealFull()
+    {
+        curHealth = MaxHealth;
     }
 }

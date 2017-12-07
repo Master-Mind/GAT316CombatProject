@@ -24,15 +24,16 @@ public class BTRandomSequence : BTControlFlowNode
     public override NodeStatus Update(ref BTAgentData nodeData)
     {
         NodeStatus stat = GetChild(nodeData.CurChild, ref nodeData).CurStatus;
+        var foo = (int)Mathf.FloorToInt(Random.value * (float)nodeData.ChildIndecies.Count);
         if (stat == NodeStatus.Failure)
         {
-            var foo = (int)Mathf.FloorToInt(Random.value * (float) nodeData.ChildIndecies.Count);
+            //Debug.Log(foo);
             nodeData.CurChild = foo;
             ((RandomData) nodeData.MyData).numTried++;
         }
         else if (stat == NodeStatus.Success)
         {
-            var foo = (int)Mathf.FloorToInt(Random.value * (float)nodeData.ChildIndecies.Count);
+            //Debug.Log(foo);
             nodeData.CurChild = foo;
             ((RandomData)nodeData.MyData).numTried++;
         }

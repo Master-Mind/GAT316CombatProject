@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.ActionSystem;
+﻿
+#if UNITY_EDITOR
+using Assets.Scripts.ActionSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -76,6 +78,9 @@ public class WeaponEditor : Editor
     {
         //update the properties of the object
         serializedObject.Update();
+        EditorGUILayout.ObjectField(serializedObject.FindProperty("QuickHitSound"));
+        EditorGUILayout.ObjectField(serializedObject.FindProperty("LongHitSound"));
+        EditorGUILayout.ObjectField(serializedObject.FindProperty("ChargeHitSound"));
         //Copying
         EditorGUILayout.BeginHorizontal();
         selectedWep = EditorGUILayout.Popup("Copy From", selectedWep, WeaponTypes.ToArray());
@@ -310,3 +315,4 @@ public class WeaponEditor : Editor
         }
     }
 }
+#endif

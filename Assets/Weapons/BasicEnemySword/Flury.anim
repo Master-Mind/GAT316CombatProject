@@ -1177,11 +1177,35 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
+  - time: 0
+    functionName: SetHitClip
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 40cbcbd4cd7434043987e13a1e2ea4bb,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.033333335
+    functionName: PlaySound
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: c6a04df0a6c990e4d96821ef721bd9d5,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.6666667
     functionName: SetDamage
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 3
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.81666666
+    functionName: PlaySound
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 83121314f85aaec4c9aaf6bdd374d4f2,
+      type: 3}
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.0333333
@@ -1196,6 +1220,38 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 2
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.4833333
+    functionName: PlaySound
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 83121314f85aaec4c9aaf6bdd374d4f2,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.7833333
+    functionName: PlaySound
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 83121314f85aaec4c9aaf6bdd374d4f2,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2
+    functionName: PlaySound
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 83121314f85aaec4c9aaf6bdd374d4f2,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.2
+    functionName: PlaySound
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 83121314f85aaec4c9aaf6bdd374d4f2,
+      type: 3}
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 2.3166666

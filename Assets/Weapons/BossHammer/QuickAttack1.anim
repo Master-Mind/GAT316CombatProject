@@ -361,15 +361,53 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
+  - time: 0
+    functionName: SetHitClip
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: ec6637b73d9c03f47bc8a2d62ee27a80,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.05
+    functionName: PlaySound
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: bc92f9ca5161aab4d970660b7910dea7,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.53333336
     functionName: SetDamage
     data: 
     objectReferenceParameter: {fileID: 0}
-    floatParameter: 6
+    floatParameter: 8
     intParameter: 0
+    messageOptions: 0
+  - time: 0.55
+    functionName: PlaySound
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: bc7630d6f9786d446a96549d08a9c81a,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.8333333
+    functionName: SetShake
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 1
     messageOptions: 0
   - time: 0.85
     functionName: SetDamage
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.98333335
+    functionName: SetShake
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

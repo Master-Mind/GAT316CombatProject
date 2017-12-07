@@ -47,5 +47,6 @@ public class DealsDamage : MonoBehaviour
     public void SetDamage(float newDamage)
     {
         _curDamage = newDamage;
+        GetComponent<Weapon>().Trail(newDamage > 0.1f);
     }
 }

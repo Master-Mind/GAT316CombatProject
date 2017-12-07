@@ -22,6 +22,11 @@ public class Weapon : MonoBehaviour
             Damage = damage;
         }
     }
+
+    public AudioClip QuickHitSound;
+    public AudioClip LongHitSound;
+    public AudioClip ChargeHitSound;
+    public AudioClip CurClip;
     public Vector3 RestingPos;
     public Quaternion RestingRot;
     private ActionSystem _actions;
@@ -51,6 +56,8 @@ public class Weapon : MonoBehaviour
     public float ChargeDamage;
     public CombatController MyController;
     public bool IsPlayers;
+    private TrailRenderer[] _trails;
+    private float _restTim = 0.1f;
     // Use this for initialization
     void Start ()
     {
@@ -61,6 +68,8 @@ public class Weapon : MonoBehaviour
         actionQueue = new Queue<AttackPair>();
         _damageComp = GetComponent<DealsDamage>();
         IsPlayers = transform.root.gameObject.name == "Player";
+        _trails = GetComponentsInChildren<TrailRenderer>();
+        Trail(false);
     }
 	public void ToJSON()
     {
@@ -149,7 +158,7 @@ public class Weapon : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        _isResting = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Rest");
+        _isResting = GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsTag("Rest");
         if (!IsPlayers)
         {
             return;
@@ -207,6 +216,22 @@ public class Weapon : MonoBehaviour
     {
         GetComponent<AudioSource>().PlayOneShot(clip);
     }
+    public void PlaySound(AudioClip clip, float pitch)
+    {
+        GetComponent<AudioSource>().PlayOneShot(clip);
+    }
+    public void SetHitClip(AudioClip clip)
+    {
+        CurClip = clip;
+    }
+
+    public void Trail(bool active)
+    {
+        foreach (var trail in _trails)
+        {
+            trail.gameObject.SetActive(active);
+        }
+    }
     public void QuickAttack()
     {
         //Attack(ref _quickIndex, QuickMoveset, QuickDamage);
@@ -218,6 +243,15 @@ public class Weapon : MonoBehaviour
         MyController.CloseDistance(distance);
     }
 
+    public void SetShake(int setTo)
+    {
+        FindObjectOfType<CameraController>().CameraShake = setTo != 0;
+    }
+
+    public void JumpBack()
+    {
+        MyController.GetComponent<MovementController>().Dodge(-transform.forward);
+    }
     public void LongAttack()
     {
         //Attack(ref _longIndex, LongMoveset, LongDamage);
@@ -244,6 +278,5 @@ public class Weapon : MonoBehaviour
     {
 
         transform.root.GetComponent<Health>().CanStagger = staggerable != 0;
-        Debug.Log("Stag:" + transform.root.GetComponent<Health>().CanStagger);
     }
 }

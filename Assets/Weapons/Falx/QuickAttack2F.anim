@@ -23,7 +23,7 @@ AnimationClip:
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.25
+        time: 0.3
         value: {x: 39.464, y: 5.1530004, z: 24.141}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
@@ -31,8 +31,8 @@ AnimationClip:
       - serializedVersion: 2
         time: 0.36666667
         value: {x: 77.438, y: 0, z: 21.375002}
-        inSlope: {x: 0, y: 0, z: -27.65999}
-        outSlope: {x: 0, y: 0, z: -27.65999}
+        inSlope: {x: 0, y: 0, z: -31.61142}
+        outSlope: {x: 0, y: 0, z: -31.61142}
         tangentMode: 0
       - serializedVersion: 2
         time: 0.65
@@ -55,7 +55,7 @@ AnimationClip:
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       - serializedVersion: 2
-        time: 0.25
+        time: 0.3
         value: {x: 0.886, y: 0.221, z: 0.037}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
@@ -63,8 +63,8 @@ AnimationClip:
       - serializedVersion: 2
         time: 0.36666667
         value: {x: 0.8, y: 0.38, z: 0.07}
-        inSlope: {x: -0.33999997, y: 0, z: 0}
-        outSlope: {x: -0.33999997, y: 0, z: 0}
+        inSlope: {x: -0.3885714, y: 0, z: 0}
+        outSlope: {x: -0.3885714, y: 0, z: 0}
         tangentMode: 0
       - serializedVersion: 2
         time: 0.65
@@ -132,7 +132,7 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 0.25
+        time: 0.3
         value: 0.886
         inSlope: 0
         outSlope: 0
@@ -140,8 +140,8 @@ AnimationClip:
       - serializedVersion: 2
         time: 0.36666667
         value: 0.8
-        inSlope: -0.33999997
-        outSlope: -0.33999997
+        inSlope: -0.3885714
+        outSlope: -0.3885714
         tangentMode: 136
       - serializedVersion: 2
         time: 0.65
@@ -166,7 +166,7 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 0.25
+        time: 0.3
         value: 0.221
         inSlope: 0
         outSlope: 0
@@ -200,7 +200,7 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 0.25
+        time: 0.3
         value: 0.037
         inSlope: 0
         outSlope: 0
@@ -234,7 +234,7 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 0.25
+        time: 0.3
         value: 39.464
         inSlope: 0
         outSlope: 0
@@ -268,7 +268,7 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 0.25
+        time: 0.3
         value: 5.1530004
         inSlope: 0
         outSlope: 0
@@ -302,7 +302,7 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
-        time: 0.25
+        time: 0.3
         value: 24.141
         inSlope: 0
         outSlope: 0
@@ -310,8 +310,8 @@ AnimationClip:
       - serializedVersion: 2
         time: 0.36666667
         value: 21.375002
-        inSlope: -27.65999
-        outSlope: -27.65999
+        inSlope: -31.61142
+        outSlope: -31.61142
         tangentMode: 136
       - serializedVersion: 2
         time: 0.65
@@ -361,18 +361,34 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
-  - time: 0.25
+  - time: 0
+    functionName: SetHitClip
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 40cbcbd4cd7434043987e13a1e2ea4bb,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.26666668
+    functionName: CloseDistance
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 2
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.3
     functionName: SetDamage
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 3
     intParameter: 0
     messageOptions: 0
-  - time: 0.25
-    functionName: CloseDistance
+  - time: 0.31666666
+    functionName: PlaySound
     data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 2
+    objectReferenceParameter: {fileID: 8300000, guid: 83121314f85aaec4c9aaf6bdd374d4f2,
+      type: 3}
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.43333334

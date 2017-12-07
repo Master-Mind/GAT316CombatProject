@@ -409,6 +409,14 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_GenerateMotionCurves: 0
   m_Events:
+  - time: 0
+    functionName: SetHitClip
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 40cbcbd4cd7434043987e13a1e2ea4bb,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.016666668
     functionName: SetStaggerable
     data: 
@@ -421,6 +429,14 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 4
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.06666667
+    functionName: PlaySound
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 50c8ad85b17ea52459dcbde643b72e28,
+      type: 3}
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.4

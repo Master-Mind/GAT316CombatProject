@@ -10,6 +10,7 @@ public class HealthBar : MonoBehaviour
     private GameObject _actualBar;
     private float _originalRight;
     private float _myWidth;
+    public bool HideWhenFull;
     // Use this for initialization
     void Start ()
     {
@@ -22,7 +23,18 @@ public class HealthBar : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    _actualBar.GetComponent<Image>().fillAmount = _healthComp.GetHealth() / _healthComp.MaxHealth;
+	    if (HideWhenFull && Mathf.Abs(_healthComp.GetHealth() - _healthComp.MaxHealth) < 0.01f)
+	    {
+	        _actualBar.GetComponent<CanvasRenderer>().SetAlpha(0);
+            GetComponent<CanvasRenderer>().SetAlpha(0);
+
+        }
+	    else
+	    {
+	        _actualBar.GetComponent<CanvasRenderer>().SetAlpha(1);
+	        GetComponent<CanvasRenderer>().SetAlpha(1);
+            _actualBar.GetComponent<Image>().fillAmount = _healthComp.GetHealth() / _healthComp.MaxHealth;
+        }
 
     }
 }

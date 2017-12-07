@@ -38,6 +38,10 @@ public class AIBehaviors : MonoBehaviour
 
     private void Update()
     {
+        if (_player == null)
+        {
+            return;
+        }
         Target = _player.transform.position;
         //BehaviorTreeSystem.Update(_myTree);
         var temp = MovementTarget;

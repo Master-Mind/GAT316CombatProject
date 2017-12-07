@@ -22,7 +22,6 @@ public class ApproachTarget : BTNode
     public override NodeStatus Update(ref BTAgentData nodeData)
     {
         var behave = nodeData.MyBehaviors;
-
         //if (behave.gameObject.name == "Boss")
         //{
         //

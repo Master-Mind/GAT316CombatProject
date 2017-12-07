@@ -11,10 +11,12 @@ public class AttackData : BTNodeData
     public AttackData(string triggerName)
     {
         TriggerName = triggerName;
+        tim = 0.1f;
     }
 
     public string TriggerName;
     public bool GotMineIn;
+    public float tim;
 }
 
 public class BTAttack : BTNode
@@ -29,6 +31,7 @@ public class BTAttack : BTNode
     public override NodeStatus Enter(ref BTAgentData nodeData)
     {
         ((AttackData)nodeData.MyData).GotMineIn = false;
+        ((AttackData) nodeData.MyData).tim = 0.1f;
         return NodeStatus.Running;
     }
 
@@ -47,13 +50,12 @@ public class BTAttack : BTNode
         }
         else if (((AttackData) nodeData.MyData).GotMineIn)
         {
+            ((AttackData)nodeData.MyData).tim -= Time.deltaTime;
+            if (((AttackData)nodeData.MyData).tim >= 0)
+                return NodeStatus.Running;
             return NodeStatus.Success;
         }
-        if (((AttackData) nodeData.MyData).TriggerName == "Overhead")
-        {
-            int foo = 0;
-        }
-
+        //Debug.Log(((AttackData)nodeData.MyData).TriggerName);
         nodeData.MyTree.MyGameObject.GetComponent<CombatController>().AttackTrigger(((AttackData)nodeData.MyData).TriggerName);
         ((AttackData) nodeData.MyData).GotMineIn = true;
         return NodeStatus.Running;

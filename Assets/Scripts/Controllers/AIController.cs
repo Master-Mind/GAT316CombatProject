@@ -26,7 +26,7 @@ public class AIController : MonoBehaviour
         tree = new BehaviorTree(gameObject).AddNode((int)BTNodeTypes.Selector,0).
                                                 AddNode((int)BTNodeTypes.Parrallel, 1).
                                                     AddNode((int)BTNodeTypes.IgnoreStat, 2, new IgnoreData(NodeStatus.Success)).
-                                                        AddNode((int)BTNodeTypes.WithinInRange, 3, new RangeData(ApproachDist, 100)).
+                                                        AddNode((int)BTNodeTypes.WithinInRange, 3, new RangeData(ApproachDist, 100000)).
                                                     AddNode((int)BTNodeTypes.Idle, 2).
                                                 AddNode((int)BTNodeTypes.Parrallel, 1).
                                                     AddNode((int)BTNodeTypes.IgnoreStat, 2, new IgnoreData(NodeStatus.Success)).
@@ -49,7 +49,16 @@ public class AIController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    curTick -= Time.deltaTime;
+	    if (GetComponent<Health>().MARKEDFORDEATH)
+	    {
+	        return;
+	    }
+        if (player == null || Time.timeScale < 0.001f)
+	    {
+	        return;
+	    }
+        curTick -= Time.deltaTime;
+
 	    if (curTick <= 0)
 	    {
 	        BehaviorTreeSystem.Update(tree);
